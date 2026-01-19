@@ -691,6 +691,19 @@
     font-size: 15px;
   }
 
+  /* Prevent sticky header from covering anchored sections (mobile only) */
+  #features, #pricing, #quiz, #faq, #terms{
+    scroll-margin-top: 100px;
+  }
+
+  /* Legal section: stack Terms + Risk vertically on mobile */
+  #terms .features{
+    grid-template-columns: 1fr !important;
+  }
+  #terms .feature{
+    grid-column: span 12 !important;
+  }
+
   /* Footer */
   footer .footer{
     flex-direction: column;
