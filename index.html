@@ -630,7 +630,7 @@
     padding-top: 96px;
   }
 
-  /* Hero text */
+  /* Hero */
   h1{
     font-size: clamp(30px, 8vw, 38px);
     line-height: 1.08;
@@ -638,6 +638,12 @@
 
   .lead{
     font-size: 15px;
+  }
+
+  /* Kicker (force single line on mobile) */
+  .kicker{
+    white-space: nowrap;
+    font-size: 12.5px;
   }
 
   /* Buttons & header */
@@ -698,7 +704,7 @@
 }
 
 /* ==========================================================
-   Mobile header cleanup (Solution 1)
+   Mobile header cleanup
    ========================================================== */
 
 @media (max-width: 520px){
@@ -708,10 +714,15 @@
   }
 }
 
-/* Center text inside mobile menu buttons */
-.mobile .btn{
-  justify-content: center;
-  text-align: center;
+/* ==========================================================
+   Extra-small safety net (optional but recommended)
+   ========================================================== */
+
+@media (max-width: 380px){
+  /* Hide decorative pulse if space is extremely tight */
+  .kicker .pulse{
+    display: none;
+  }
 }
 
   </style>
@@ -1025,7 +1036,6 @@
           <h2>Take our quick quiz</h2>
           <p>
             Answer two quick questions and we’ll recommend the best starting point. You’ll be taken to the matching product.
-            (You can add checkout links later.)
           </p>
 
           <div class="quizgrid">
