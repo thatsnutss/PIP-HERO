@@ -695,7 +695,17 @@
   footer .brand{
     justify-content: center;
   }
+}
 
+/* ==========================================================
+   Mobile header cleanup (Solution 1)
+   ========================================================== */
+
+@media (max-width: 520px){
+  /* Hide secondary CTA to prevent header crowding */
+  .navcta a.btn.ghost{
+    display: none;
+  }
 }
 
   </style>
