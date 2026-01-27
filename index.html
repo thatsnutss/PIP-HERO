@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0B0F17" />
   <title>PIP HERO</title>
-  <meta name="description" content="Pip Hero provides rules-based indicators and automation tools for Futures & FX traders operating under prop firm rules. Scalping and swing indicators, an automated swing bot, and a mastery bundle." />
+  <meta name="description" content="Pip Hero provides rules-based indicators and automation tools for Futures & FX traders operating under prop firm rules. Scalping and swing indicators, an automated swing bot, and the inner circle." />
 
   <style>
     :root{
@@ -999,7 +999,7 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
     <div class="pricing">
 
       <!-- Scalping Indicator -->
-      <div class="price" data-checkout="">
+      <div class="price" data-checkout="https://buy.stripe.com/aFa6oHbAi1GK50Afah2B203">
         <div class="phead">
           <div class="chiprow"></div>
           <div class="tier">Scalping Indicator</div>
@@ -1025,7 +1025,7 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
       </div>
 
       <!-- Swing Indicator -->
-      <div class="price" data-checkout="">
+      <div class="price" data-checkout="https://buy.stripe.com/6oU4gzdIqgBEakU0fn2B200">
         <div class="phead">
           <div class="chiprow"></div>
           <div class="tier">Swing Indicator</div>
@@ -1051,7 +1051,7 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
       </div>
 
       <!-- Automated Swing Trading Bot -->
-      <div class="price" data-checkout="">
+      <div class="price" data-checkout="https://buy.stripe.com/cNi9AT0VE0CGfFed292B201">
         <div class="phead">
           <div class="chiprow"></div>
           <div class="tier">Automated Trading Bot</div>
@@ -1077,7 +1077,7 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
       </div>
 
       <!-- Inner Circle -->
-<div class="price" data-checkout="">
+<div class="price" data-checkout="https://buy.stripe.com/4gMbJ1gUC71450AbY52B202">
   <div class="phead">
     <div class="chiprow"></div>
     <div class="tier">Inner Circle</div>
@@ -1342,7 +1342,7 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
       <div id="emailSuccessWrap" style="display:none; margin-top:10px;">
         <div style="border-radius:14px; border:1px solid rgba(52,211,153,.22); background:rgba(52,211,153,.10); padding:10px 12px; color:rgba(232,236,255,.88); font-size:13px; line-height:1.5;">
           <strong>You’re all set.</strong><br/>
-          Your discount code: <strong id="discountCode">PIPHERO10</strong><br/>
+          Your discount code: <strong id="discountCode">LAUNCH10</strong><br/>
           Use this at checkout.
         </div>
 
@@ -1357,357 +1357,383 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
     </div>
   </div>
 
-  <!-- SINGLE, HARDENED SCRIPT (no optional-chaining assignments) -->
-  <script>
-    (function () {
-      function $(id){ return document.getElementById(id); }
+<!-- SINGLE, HARDENED SCRIPT (no optional-chaining assignments) -->
+<script>
+  (function () {
+    function $(id){ return document.getElementById(id); }
 
-      window.addEventListener('DOMContentLoaded', function () {
-        // Mobile menu
-        var hamburger = $('hamburger');
-        var mobileMenu = $('mobileMenu');
+    window.addEventListener('DOMContentLoaded', function () {
+      // Mobile menu
+      var hamburger = $('hamburger');
+      var mobileMenu = $('mobileMenu');
 
-        function setMenu(open){
-          if(!mobileMenu) return;
-          mobileMenu.classList.toggle('show', open);
-          if(hamburger) hamburger.setAttribute('aria-expanded', String(open));
+      function setMenu(open){
+        if(!mobileMenu) return;
+        mobileMenu.classList.toggle('show', open);
+        if(hamburger) hamburger.setAttribute('aria-expanded', String(open));
+      }
+
+      if(hamburger){
+        hamburger.addEventListener('click', function () {
+          var open = !(mobileMenu && mobileMenu.classList.contains('show'));
+          setMenu(open);
+        });
+      }
+
+      if(mobileMenu){
+        var links = mobileMenu.querySelectorAll('a');
+        for (var i=0; i<links.length; i++){
+          links[i].addEventListener('click', function(){ setMenu(false); });
+        }
+      }
+
+      // Footer year (guarded)
+      var yearEl = $('year');
+      if(yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+      // Quiz
+      var quizBtn = $('quizBtn');
+      var quizResult = $('quizResult');
+      var lastRecommendation = null;
+
+      function getRadioValue(name){
+        var el = document.querySelector('input[name="' + name + '"]:checked');
+        return el ? el.value : null;
+      }
+
+      function recommendProduct(style, pref){
+        if(style === 'auto' || pref === 'handsOff') return 'bot';
+        if(style === 'scalp' || pref === 'speed') return 'scalp';
+        if(style === 'swing') return 'swing';
+        return 'swing';
+      }
+
+      function cardFor(key){
+        // order of pricing cards: 0=scalp, 1=swing, 2=bot, 3=inner circle
+        var map = { scalp: 0, swing: 1, bot: 2, inner: 3 };
+        var cards = document.querySelectorAll('#pricing .price');
+        return cards && cards.length ? (cards[map[key]] || null) : null;
+      }
+
+      function prettyName(key){
+        var names = {
+          scalp: 'Scalping Indicator',
+          swing: 'Swing Indicator',
+          bot: 'Automated Swing Trading Bot',
+          inner: 'Inner Circle'
+        };
+        return names[key] || key;
+      }
+
+      function clearRecommended(){
+        var recs = document.querySelectorAll('#pricing .price.recommended');
+        for (var i=0; i<recs.length; i++){
+          recs[i].classList.remove('recommended');
+        }
+      }
+
+      function highlightCard(card){
+        if(!card) return;
+        clearRecommended();
+        card.classList.add('recommended');
+      }
+
+      function setQuizButtonState(state){
+        if(!quizBtn) return;
+        if(state === 'done'){
+          quizBtn.textContent = 'Results shown';
+          quizBtn.classList.remove('primary');
+          quizBtn.classList.add('ghost');
+          quizBtn.disabled = true;
+        } else {
+          quizBtn.textContent = 'Show results';
+          quizBtn.classList.remove('ghost');
+          quizBtn.classList.add('primary');
+          quizBtn.disabled = false;
+        }
+      }
+
+      function resetQuiz(){
+        var styleEl = document.querySelector('input[name="style"][value="unsure"]');
+        if(styleEl) styleEl.checked = true;
+
+        var prefEl = document.querySelector('input[name="pref"][value="clarity"]');
+        if(prefEl) prefEl.checked = true;
+
+        lastRecommendation = null;
+
+        if(quizResult){
+          quizResult.style.display = 'none';
+          quizResult.innerHTML = '';
         }
 
-        if(hamburger){
-          hamburger.addEventListener('click', function () {
-            var open = !(mobileMenu && mobileMenu.classList.contains('show'));
-            setMenu(open);
-          });
-        }
-
-        if(mobileMenu){
-          var links = mobileMenu.querySelectorAll('a');
-          for (var i=0; i<links.length; i++){
-            links[i].addEventListener('click', function(){ setMenu(false); });
-          }
-        }
-
-        // Footer year (guarded)
-        var yearEl = $('year');
-        if(yearEl) yearEl.textContent = String(new Date().getFullYear());
-
-        // Quiz
-        var quizBtn = $('quizBtn');
-        var quizResult = $('quizResult');
-        var lastRecommendation = null;
-
-        function getRadioValue(name){
-          var el = document.querySelector('input[name="' + name + '"]:checked');
-          return el ? el.value : null;
-        }
-
-        function recommendProduct(style, pref){
-          if(style === 'auto' || pref === 'handsOff') return 'bot';
-          if(style === 'scalp' || pref === 'speed') return 'scalp';
-          if(style === 'swing') return 'swing';
-          return 'swing';
-        }
-
-        function cardFor(key){
-          var map = { scalp: 0, swing: 1, bot: 2, mastery: 3 };
-          var cards = document.querySelectorAll('#pricing .price');
-          return cards && cards.length ? (cards[map[key]] || null) : null;
-        }
-
-        function prettyName(key){
-          var names = {
-            scalp: 'Scalping Indicator',
-            swing: 'Swing Indicator',
-            bot: 'Automated Swing Trading Bot',
-            mastery: 'Mastery Bundle'
-          };
-          return names[key] || key;
-        }
-
-        function clearRecommended(){
-          var recs = document.querySelectorAll('#pricing .price.recommended');
-          for (var i=0; i<recs.length; i++){
-            recs[i].classList.remove('recommended');
-          }
-        }
-
-        function highlightCard(card){
-          if(!card) return;
-          clearRecommended();
-          card.classList.add('recommended');
-        }
-
-        function setQuizButtonState(state){
-          if(!quizBtn) return;
-          if(state === 'done'){
-            quizBtn.textContent = 'Results shown';
-            quizBtn.classList.remove('primary');
-            quizBtn.classList.add('ghost');
-            quizBtn.disabled = true;
-          } else {
-            quizBtn.textContent = 'Show results';
-            quizBtn.classList.remove('ghost');
-            quizBtn.classList.add('primary');
-            quizBtn.disabled = false;
-          }
-        }
-
-        function resetQuiz(){
-          var styleEl = document.querySelector('input[name="style"][value="unsure"]');
-          if(styleEl) styleEl.checked = true;
-
-          var prefEl = document.querySelector('input[name="pref"][value="clarity"]');
-          if(prefEl) prefEl.checked = true;
-
-          lastRecommendation = null;
-
-          if(quizResult){
-            quizResult.style.display = 'none';
-            quizResult.innerHTML = '';
-          }
-
-          clearRecommended();
-          setQuizButtonState('ready');
-        }
-
+        clearRecommended();
         setQuizButtonState('ready');
+      }
 
-        if(quizBtn){
-          quizBtn.addEventListener('click', function () {
-            var style = getRadioValue('style') || 'unsure';
-            var pref = getRadioValue('pref') || 'clarity';
-            var rec = recommendProduct(style, pref);
-            lastRecommendation = rec;
+      setQuizButtonState('ready');
 
-            if(!quizResult) return;
+      if(quizBtn){
+        quizBtn.addEventListener('click', function () {
+          var style = getRadioValue('style') || 'unsure';
+          var pref = getRadioValue('pref') || 'clarity';
+          var rec = recommendProduct(style, pref);
+          lastRecommendation = rec;
 
-            quizResult.style.display = 'block';
-            quizResult.innerHTML =
-              '<strong>Recommendation:</strong> ' + prettyName(rec) + '<br/>' +
-              'Click below to view the recommended product.' +
-              '<div class="row">' +
-                '<button class="btn primary" type="button" id="seePricingBtn">Go to product</button>' +
-                '<button class="btn ghost" type="button" id="resetQuizBtn">Reset</button>' +
-                '<a class="btn ghost" href="#faq">Read FAQs</a>' +
-              '</div>';
+          if(!quizResult) return;
 
-            setQuizButtonState('done');
+          quizResult.style.display = 'block';
+          quizResult.innerHTML =
+            '<strong>Recommendation:</strong> ' + prettyName(rec) + '<br/>' +
+            'Click below to view the recommended product.' +
+            '<div class="row">' +
+              '<button class="btn primary" type="button" id="seePricingBtn">Go to product</button>' +
+              '<button class="btn ghost" type="button" id="resetQuizBtn">Reset</button>' +
+              '<a class="btn ghost" href="#faq">Read FAQs</a>' +
+            '</div>';
 
-            var seeBtn = $('seePricingBtn');
-            if(seeBtn){
-              seeBtn.addEventListener('click', function () {
-                var pricingSection = $('pricing');
-                var card = cardFor(lastRecommendation);
-                if(!pricingSection || !card) return;
+          setQuizButtonState('done');
 
-                var yOffset = -20;
-                var y = pricingSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                window.scrollTo({ top: y, behavior: 'smooth' });
+          var seeBtn = $('seePricingBtn');
+          if(seeBtn){
+            seeBtn.addEventListener('click', function () {
+              var pricingSection = $('pricing');
+              var card = cardFor(lastRecommendation);
+              if(!pricingSection || !card) return;
 
-                window.setTimeout(function(){ highlightCard(card); }, 300);
-              });
-            }
+              var yOffset = -20;
+              var y = pricingSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+              window.scrollTo({ top: y, behavior: 'smooth' });
 
-            var resetBtn = $('resetQuizBtn');
-            if(resetBtn){
-              resetBtn.addEventListener('click', function () {
-                resetQuiz();
-                var quizSection = $('quiz');
-                if(quizSection) quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              });
-            }
-          });
-        }
-
-        // Email capture modal
-        var EMAIL_MODAL_KEY = 'piphero_email_modal_dismissed_v1';
-        var DISCOUNT_CODE = 'PIPHERO10';
-
-        function openEmailModal(){
-          var modal = $('emailModal');
-          if(!modal) return;
-
-          resetEmailModalUI();
-          modal.classList.add('show');
-          modal.setAttribute('aria-hidden', 'false');
-          document.body.classList.add('modal-open');
-
-          window.setTimeout(function () {
-            var inp = $('emailInput');
-            if(inp) inp.focus();
-          }, 50);
-        }
-
-        function closeEmailModal(persist){
-          if(typeof persist === 'undefined') persist = true;
-          var modal = $('emailModal');
-          if(!modal) return;
-
-          modal.classList.remove('show');
-          modal.setAttribute('aria-hidden', 'true');
-          document.body.classList.remove('modal-open');
-
-          if(persist){
-            try { localStorage.setItem(EMAIL_MODAL_KEY, '1'); } catch(e){}
+              window.setTimeout(function(){ highlightCard(card); }, 300);
+            });
           }
-        }
 
-        function shouldShowEmailModal(){
-          try { return !localStorage.getItem(EMAIL_MODAL_KEY); }
-          catch(e){ return true; }
-        }
+          var resetBtn = $('resetQuizBtn');
+          if(resetBtn){
+            resetBtn.addEventListener('click', function () {
+              resetQuiz();
+              var quizSection = $('quiz');
+              if(quizSection) quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+          }
+        });
+      }
 
-        function showInlineError(msg){
-          var el = $('emailInlineError');
-          if(!el) return;
-          el.style.display = 'block';
-          el.textContent = msg;
-        }
+      // ==========================================================
+      // Pricing checkout routing (Stripe Payment Links)
+      // ==========================================================
+      var pricingSection = $('pricing');
+      if(pricingSection){
+        pricingSection.addEventListener('click', function(e){
+          // capture clicks on any .btn inside #pricing .actions
+          var btn = e.target && e.target.closest ? e.target.closest('#pricing .actions .btn') : null;
+          if(!btn) return;
 
-        function clearInlineError(){
-          var el = $('emailInlineError');
-          if(!el) return;
-          el.style.display = 'none';
-          el.textContent = '';
-        }
+          var card = btn.closest ? btn.closest('.price') : null;
+          var url = card ? card.getAttribute('data-checkout') : '';
 
-        function showSuccessState(){
-          clearInlineError();
+          if(!url){
+            alert('Checkout link not set yet for this product.');
+            return;
+          }
 
-          var codeEl = $('discountCode');
-          if(codeEl) codeEl.textContent = DISCOUNT_CODE;
+          // route to Stripe payment link (same tab)
+          window.location.href = url;
+          // If you prefer new tab instead, use:
+          // window.open(url, '_blank', 'noopener');
+        });
+      }
 
-          var formWrap = $('emailFormWrap');
-          if(formWrap) formWrap.style.display = 'none';
+      // Email capture modal
+      var EMAIL_MODAL_KEY = 'piphero_email_modal_dismissed_v1';
+      var DISCOUNT_CODE = 'PIPHERO10';
 
-          var successWrap = $('emailSuccessWrap');
-          if(successWrap) successWrap.style.display = 'block';
+      function openEmailModal(){
+        var modal = $('emailModal');
+        if(!modal) return;
 
+        resetEmailModalUI();
+        modal.classList.add('show');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+
+        window.setTimeout(function () {
+          var inp = $('emailInput');
+          if(inp) inp.focus();
+        }, 50);
+      }
+
+      function closeEmailModal(persist){
+        if(typeof persist === 'undefined') persist = true;
+        var modal = $('emailModal');
+        if(!modal) return;
+
+        modal.classList.remove('show');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+
+        if(persist){
           try { localStorage.setItem(EMAIL_MODAL_KEY, '1'); } catch(e){}
         }
+      }
 
-        function resetEmailModalUI(){
-          clearInlineError();
+      function shouldShowEmailModal(){
+        try { return !localStorage.getItem(EMAIL_MODAL_KEY); }
+        catch(e){ return true; }
+      }
 
-          var input = $('emailInput');
-          if(input) input.value = '';
+      function showInlineError(msg){
+        var el = $('emailInlineError');
+        if(!el) return;
+        el.style.display = 'block';
+        el.textContent = msg;
+      }
 
-          var formWrap = $('emailFormWrap');
-          if(formWrap) formWrap.style.display = 'block';
+      function clearInlineError(){
+        var el = $('emailInlineError');
+        if(!el) return;
+        el.style.display = 'none';
+        el.textContent = '';
+      }
 
-          var successWrap = $('emailSuccessWrap');
-          if(successWrap) successWrap.style.display = 'none';
+      function showSuccessState(){
+        clearInlineError();
 
-          var copy = $('copyStatus');
-          if(copy){
-            copy.style.display = 'none';
-            copy.textContent = '';
-          }
+        var codeEl = $('discountCode');
+        if(codeEl) codeEl.textContent = DISCOUNT_CODE;
+
+        var formWrap = $('emailFormWrap');
+        if(formWrap) formWrap.style.display = 'none';
+
+        var successWrap = $('emailSuccessWrap');
+        if(successWrap) successWrap.style.display = 'block';
+
+        try { localStorage.setItem(EMAIL_MODAL_KEY, '1'); } catch(e){}
+      }
+
+      function resetEmailModalUI(){
+        clearInlineError();
+
+        var input = $('emailInput');
+        if(input) input.value = '';
+
+        var formWrap = $('emailFormWrap');
+        if(formWrap) formWrap.style.display = 'block';
+
+        var successWrap = $('emailSuccessWrap');
+        if(successWrap) successWrap.style.display = 'none';
+
+        var copy = $('copyStatus');
+        if(copy){
+          copy.style.display = 'none';
+          copy.textContent = '';
+        }
+      }
+
+      function setCopyStatus(msg){
+        var el = $('copyStatus');
+        if(!el) return;
+
+        el.style.display = 'block';
+        el.textContent = msg;
+
+        window.clearTimeout(window.__copyTimer);
+        window.__copyTimer = window.setTimeout(function(){
+          el.style.display = 'none';
+          el.textContent = '';
+        }, 1800);
+      }
+
+      var modal = $('emailModal');
+      if(modal){
+        var successCta = $('emailSuccessCta');
+        if(successCta){
+          successCta.addEventListener('click', function(e){
+            e.preventDefault();
+            closeEmailModal(true);
+            window.setTimeout(function(){ location.hash = 'pricing'; }, 50);
+          });
         }
 
-        function setCopyStatus(msg){
-          var el = $('copyStatus');
-          if(!el) return;
-
-          el.style.display = 'block';
-          el.textContent = msg;
-
-          window.clearTimeout(window.__copyTimer);
-          window.__copyTimer = window.setTimeout(function(){
-            el.style.display = 'none';
-            el.textContent = '';
-          }, 1800);
-        }
-
-        var modal = $('emailModal');
-        if(modal){
-          var successCta = $('emailSuccessCta');
-          if(successCta){
-            successCta.addEventListener('click', function(e){
-              e.preventDefault();
-              closeEmailModal(true);
-              window.setTimeout(function(){ location.hash = 'pricing'; }, 50);
-            });
-          }
-
-          var copyBtn = $('copyDiscountBtn');
-          if(copyBtn){
-            copyBtn.addEventListener('click', function () {
-              if(navigator.clipboard && navigator.clipboard.writeText){
-                navigator.clipboard.writeText(DISCOUNT_CODE).then(function(){
-                  setCopyStatus('Copied to clipboard.');
-                }).catch(function(){
-                  var tmp = document.createElement('textarea');
-                  tmp.value = DISCOUNT_CODE;
-                  tmp.style.position = 'fixed';
-                  tmp.style.left = '-9999px';
-                  document.body.appendChild(tmp);
-                  tmp.select();
-                  document.execCommand('copy');
-                  document.body.removeChild(tmp);
-                  setCopyStatus('Copied to clipboard.');
-                });
-              } else {
-                var tmp2 = document.createElement('textarea');
-                tmp2.value = DISCOUNT_CODE;
-                tmp2.style.position = 'fixed';
-                tmp2.style.left = '-9999px';
-                document.body.appendChild(tmp2);
-                tmp2.select();
-                document.execCommand('copy');
-                document.body.removeChild(tmp2);
+        var copyBtn = $('copyDiscountBtn');
+        if(copyBtn){
+          copyBtn.addEventListener('click', function () {
+            if(navigator.clipboard && navigator.clipboard.writeText){
+              navigator.clipboard.writeText(DISCOUNT_CODE).then(function(){
                 setCopyStatus('Copied to clipboard.');
-              }
-            });
-          }
-
-          if(shouldShowEmailModal()){
-            window.setTimeout(openEmailModal, 7000);
-          }
-
-          var closeX = $('emailModalClose');
-          if(closeX) closeX.addEventListener('click', function(){ closeEmailModal(true); });
-
-          var noThanks = $('emailNoThanksBtn');
-          if(noThanks) noThanks.addEventListener('click', function(){ closeEmailModal(true); });
-
-          var successClose = $('emailSuccessCloseBtn');
-          if(successClose) successClose.addEventListener('click', function(){ closeEmailModal(true); });
-
-          modal.addEventListener('click', function(e){
-            if(e.target === modal) closeEmailModal(true);
+              }).catch(function(){
+                var tmp = document.createElement('textarea');
+                tmp.value = DISCOUNT_CODE;
+                tmp.style.position = 'fixed';
+                tmp.style.left = '-9999px';
+                document.body.appendChild(tmp);
+                tmp.select();
+                document.execCommand('copy');
+                document.body.removeChild(tmp);
+                setCopyStatus('Copied to clipboard.');
+              });
+            } else {
+              var tmp2 = document.createElement('textarea');
+              tmp2.value = DISCOUNT_CODE;
+              tmp2.style.position = 'fixed';
+              tmp2.style.left = '-9999px';
+              document.body.appendChild(tmp2);
+              tmp2.select();
+              document.execCommand('copy');
+              document.body.removeChild(tmp2);
+              setCopyStatus('Copied to clipboard.');
+            }
           });
-
-          document.addEventListener('keydown', function(e){
-            if(e.key === 'Escape' && modal.classList.contains('show')) closeEmailModal(true);
-          });
-
-          var submitBtn = $('emailSubmitBtn');
-          if(submitBtn){
-            submitBtn.addEventListener('click', function(){
-              var emailInput = $('emailInput');
-              var email = (emailInput && emailInput.value ? emailInput.value : '').trim();
-
-              if(!email){
-                showInlineError('Please enter your email address.');
-                if(emailInput) emailInput.focus();
-                return;
-              }
-
-              var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-              if(!ok){
-                showInlineError('Please enter a valid email address.');
-                if(emailInput) emailInput.focus();
-                return;
-              }
-
-              // TODO: send email to your provider here (Mailchimp/Klaviyo/etc.)
-              showSuccessState();
-            });
-          }
         }
-      });
-    })();
-  </script>
+
+        if(shouldShowEmailModal()){
+          window.setTimeout(openEmailModal, 7000);
+        }
+
+        var closeX = $('emailModalClose');
+        if(closeX) closeX.addEventListener('click', function(){ closeEmailModal(true); });
+
+        var noThanks = $('emailNoThanksBtn');
+        if(noThanks) noThanks.addEventListener('click', function(){ closeEmailModal(true); });
+
+        var successClose = $('emailSuccessCloseBtn');
+        if(successClose) successClose.addEventListener('click', function(){ closeEmailModal(true); });
+
+        modal.addEventListener('click', function(e){
+          if(e.target === modal) closeEmailModal(true);
+        });
+
+        document.addEventListener('keydown', function(e){
+          if(e.key === 'Escape' && modal.classList.contains('show')) closeEmailModal(true);
+        });
+
+        var submitBtn = $('emailSubmitBtn');
+        if(submitBtn){
+          submitBtn.addEventListener('click', function(){
+            var emailInput = $('emailInput');
+            var email = (emailInput && emailInput.value ? emailInput.value : '').trim();
+
+            if(!email){
+              showInlineError('Please enter your email address.');
+              if(emailInput) emailInput.focus();
+              return;
+            }
+
+            var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            if(!ok){
+              showInlineError('Please enter a valid email address.');
+              if(emailInput) emailInput.focus();
+              return;
+            }
+
+            // TODO: send email to your provider here (Mailchimp/Klaviyo/etc.)
+            showSuccessState();
+          });
+        }
+      }
+    });
+  })();
+</script>
 </body>
 </html>
