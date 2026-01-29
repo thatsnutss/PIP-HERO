@@ -846,8 +846,8 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
           <a href="#faq">FAQs</a>
           <a href="#terms">Legal</a>
           <div class="row" style="flex-direction: column; gap: 10px;">
-  <a class="btn primary" href="#quiz" style="width:100%;">Quiz</a>
-  <a class="btn ghost" href="#pricing" style="width:100%;">View pricing</a>
+  <a class="btn ghost" href="#quiz" style="width:100%;">Quiz</a>
+  <a class="btn primary" href="#pricing" style="width:100%;">View pricing</a>
 </div>
         </div>
       </div>
@@ -1077,7 +1077,7 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
       </div>
 
       <!-- Inner Circle -->
-<div class="price" data-checkout="https://buy.stripe.com/4gMbJ1gUC71450AbY52B202">
+<div class="price" data-checkout="https://buy.stripe.com/7sYeVdawe99c9gQaU12B204">
   <div class="phead">
     <div class="chiprow"></div>
     <div class="tier">Inner Circle</div>
@@ -1086,7 +1086,7 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
     </div>
   </div>
   <div class="val">
-    <div class="num">£249</div>
+    <div class="num">£49</div>
     <div class="per">/ month</div>
   </div>
   <ul>
@@ -1096,7 +1096,7 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
   </ul>
   <div class="actions">
     <button class="btn primary" type="button"
-      data-product="Inner Circle" data-price="£249/month">
+      data-product="Inner Circle" data-price="£49/month">
       Subscribe
     </button>
   </div>
@@ -1212,8 +1212,16 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
           </svg>
         </summary>
         <p>
-  All PIP HERO products are delivered via TradingView. Support is therefore limited to TradingView’s platform and the brokers and instruments it supports.
+  All chart-based indicators and automated trading bots are delivered via
+  <strong>TradingView</strong>.<br><br>
+
+  Community-based products, such as the Inner Circle, are delivered via
+  <strong>Discord</strong>.<br><br>
+
+  Platform support is therefore limited to TradingView and its supported brokers
+  and instruments, alongside Discord for community access where applicable.
 </p>
+
       </details>
 
       <!-- 4) Delivery -->
@@ -1225,8 +1233,18 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
           </svg>
         </summary>
         <p>
-  Access is delivered via TradingView’s invite-only feature. In addition, a full PDF product guide is emailed instantly after purchase for download and reference.
+  At checkout, you’ll be asked to provide your
+  <strong>TradingView username</strong> or <strong>Discord username</strong>
+  (depending on the product purchased).<br><br>
+
+  <strong>Access is granted manually</strong> to ensure correct setup and licensing.
+  This is typically completed <strong>within 24 hours (Monday–Friday)</strong> or
+  <strong>within 48 hours on weekends</strong>.<br><br>
+
+  A <strong>PDF setup guide</strong> is also emailed immediately after purchase for
+  installation and reference.
 </p>
+
       </details>
 
       <!-- 5) Guarantees -->
@@ -1327,16 +1345,25 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
       <p>Enter your email to receive an exclusive discount code.</p>
 
       <!-- Form view -->
-      <div id="emailFormWrap">
-        <input id="emailInput" type="email" placeholder="you@example.com" autocomplete="email" />
+<div id="emailFormWrap">
+  <input id="emailInput" type="email" placeholder="you@example.com" autocomplete="email" />
 
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <button class="btn primary" type="button" id="emailSubmitBtn">Get my discount</button>
-          <button class="btn ghost" type="button" id="emailNoThanksBtn">No thanks</button>
-        </div>
+  <!-- GDPR consent (required for Mailchimp GDPR audiences) -->
+  <label style="display:flex; gap:10px; align-items:flex-start; margin:10px 0; color:rgba(232,236,255,.72); font-size:13px; line-height:1.4;">
+    <input type="checkbox" id="emailConsent" />
+    <span>
+      I agree to receive emails from PIP HERO about product updates, educational resources, and occasional offers.
+      Unsubscribe at any time.
+    </span>
+  </label>
 
-        <p id="emailInlineError" style="display:none; margin:10px 0 0; color:rgba(232,236,255,.85); background:rgba(239,68,68,.14); border:1px solid rgba(239,68,68,.25); padding:10px 12px; border-radius:14px; font-size:13px; line-height:1.4;"></p>
-      </div>
+  <div style="display:flex; gap:10px; flex-wrap:wrap;">
+    <button class="btn primary" type="button" id="emailSubmitBtn">Get my discount</button>
+    <button class="btn ghost" type="button" id="emailNoThanksBtn">No thanks</button>
+  </div>
+
+  <p id="emailInlineError" style="display:none; margin:10px 0 0; color:rgba(232,236,255,.85); background:rgba(239,68,68,.14); border:1px solid rgba(239,68,68,.25); padding:10px 12px; border-radius:14px; font-size:13px; line-height:1.4;"></p>
+</div>
 
       <!-- Success view -->
       <div id="emailSuccessWrap" style="display:none; margin-top:10px;">
@@ -1356,6 +1383,29 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
       </div>
     </div>
   </div>
+
+<!-- Hidden Mailchimp submit (background) -->
+<iframe name="mc_hidden_iframe" id="mc_hidden_iframe" style="display:none;"></iframe>
+
+<form id="mcHiddenForm"
+  action="https://piphero.us18.list-manage.com/subscribe/post?u=0410bdd311b58b9c236a2e4bf&amp;id=1d4e3a8fdd&amp;f_id=00e3b2e6f0"
+  method="post"
+  target="mc_hidden_iframe"
+  style="display:none;"
+>
+  <input type="email" name="EMAIL" id="mcHiddenEmail" value="" />
+
+  <!-- GDPR consent checkbox field (Mailchimp expects this) -->
+  <input type="hidden" name="gdpr[105388]" id="mcHiddenGdpr" value="Y" />
+
+  <!-- Tag from your embed -->
+  <input type="hidden" name="tags" value="3131179" />
+
+  <!-- Bot trap (from your embed) -->
+  <div style="position:absolute; left:-5000px;" aria-hidden="true">
+    <input type="text" name="b_0410bdd311b58b9c236a2e4bf_1d4e3a8fdd" tabindex="-1" value="">
+  </div>
+</form>
 
 <!-- SINGLE, HARDENED SCRIPT (no optional-chaining assignments) -->
 <script>
@@ -1727,8 +1777,31 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
               return;
             }
 
-            // TODO: send email to your provider here (Mailchimp/Klaviyo/etc.)
-            showSuccessState();
+           // Require GDPR consent (Mailchimp GDPR audiences)
+var consent = document.getElementById('emailConsent');
+if(!consent || !consent.checked){
+  showInlineError('Please tick the box to consent to email updates.');
+  return;
+}
+
+// Submit to Mailchimp via hidden form + iframe
+var mcForm = document.getElementById('mcHiddenForm');
+var mcEmail = document.getElementById('mcHiddenEmail');
+
+if(!mcForm || !mcEmail){
+  showInlineError('Email system unavailable — please try again shortly.');
+  return;
+}
+
+mcEmail.value = email;
+
+try {
+  mcForm.submit();
+} catch (e) {
+  // If submission fails, we still show success UI
+}
+
+showSuccessState();
           });
         }
       }
