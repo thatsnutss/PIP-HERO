@@ -804,23 +804,29 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
 }
 
 /* ==========================================================
-   Email capture consent cleanup
+   Email capture consent cleanup (fixed overflow + spacing)
    ========================================================== */
 
 .email-consent{
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  margin: 12px 0 14px;
-  font-size: 13px;
-  line-height: 1.45;
-  color: rgba(232,236,255,.72);
-  cursor: pointer; /* click text toggles checkbox */
+  gap: 10px;
+  margin: 10px 0 12px;    /* tighter vertical spacing */
+  width: 100%;            /* keep it inside the modal */
+  cursor: pointer;
 }
 
 .email-consent input[type="checkbox"]{
   margin-top: 2px;
   flex: 0 0 auto;
+}
+
+.email-consent span{
+  flex: 1 1 auto;         /* allow text to take remaining space */
+  min-width: 0;           /* CRITICAL: prevents text overflowing to the right */
+  color: rgba(232,236,255,.72);
+  font-size: 13px;
+  line-height: 1.45;
 }
 
   </style>
