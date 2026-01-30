@@ -804,50 +804,52 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
 }
 
 /* ==========================================================
-   FIX: Email modal form layout (locks alignment + spacing)
+   FIX: Email modal form layout (robust + browser-safe)
    ========================================================== */
 
+#emailModal .modal{ text-align: left; }
+
 #emailModal #emailFormWrap{
-  display: grid;
-  gap: 12px;            /* controls vertical spacing cleanly */
-  width: 100%;
-}
-
-#emailModal #emailFormWrap input#emailInput{
-  width: 100%;
-  margin: 0;            /* overrides any global modal input margins */
-}
-
-#emailModal .email-consent{
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 10px;
+  flex-direction: column;
+  gap: 10px;          /* controls spacing between input/consent/buttons */
   width: 100%;
-  margin: 0;            /* prevents the big gap */
-  text-align: left;     /* overrides any centered modal text */
+}
+
+#emailModal #emailInput{
+  width: 100%;
+  margin: 0;          /* overrides .modal input margins */
+}
+
+/* Consent row: grid prevents overflow + keeps checkbox left */
+#emailModal .email-consent{
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  column-gap: 10px;
+  align-items: start;
+  width: 100%;
+  margin: 0;
   cursor: pointer;
 }
 
 #emailModal .email-consent input[type="checkbox"]{
-  margin: 2px 0 0 0;    /* keeps checkbox aligned top-left */
-  flex: 0 0 auto;
+  margin: 2px 0 0 0;
 }
 
 #emailModal .email-consent span{
   display: block;
-  flex: 1 1 auto;
-  min-width: 0;         /* CRITICAL: prevents text from overflowing right */
+  min-width: 0;
+  white-space: normal;        /* ensures wrapping */
+  overflow-wrap: anywhere;    /* prevents text escaping right */
   color: rgba(232,236,255,.72);
   font-size: 13px;
   line-height: 1.45;
 }
 
+/* Button row: keep it tidy */
 #emailModal #emailFormWrap > div{
-  margin: 0;            /* prevents unexpected spacing from inline styles */
+  margin: 0;
 }
-
-#emailModal .modal{ text-align: left; }
 
   </style>
 </head>
