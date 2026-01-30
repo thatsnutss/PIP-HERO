@@ -804,34 +804,47 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
 }
 
 /* ==========================================================
-   Email capture consent cleanup (fixed overflow + spacing)
+   FIX: Email modal form layout (locks alignment + spacing)
    ========================================================== */
 
-.email-consent{
+#emailModal #emailFormWrap{
+  display: grid;
+  gap: 12px;            /* controls vertical spacing cleanly */
+  width: 100%;
+}
+
+#emailModal #emailFormWrap input#emailInput{
+  width: 100%;
+  margin: 0;            /* overrides any global modal input margins */
+}
+
+#emailModal .email-consent{
   display: flex;
   align-items: flex-start;
+  justify-content: flex-start;
   gap: 10px;
-  margin: 10px 0 12px;    /* tighter vertical spacing */
-  width: 100%;            /* keep it inside the modal */
+  width: 100%;
+  margin: 0;            /* prevents the big gap */
+  text-align: left;     /* overrides any centered modal text */
   cursor: pointer;
 }
 
-.email-consent input[type="checkbox"]{
-  margin-top: 2px;
+#emailModal .email-consent input[type="checkbox"]{
+  margin: 2px 0 0 0;    /* keeps checkbox aligned top-left */
   flex: 0 0 auto;
 }
 
-.email-consent span{
-  flex: 1 1 auto;         /* allow text to take remaining space */
-  min-width: 0;           /* CRITICAL: prevents text overflowing to the right */
+#emailModal .email-consent span{
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;         /* CRITICAL: prevents text from overflowing right */
   color: rgba(232,236,255,.72);
   font-size: 13px;
   line-height: 1.45;
 }
 
-#emailFormWrap{
-  margin: 0;
-  padding: 0;
+#emailModal #emailFormWrap > div{
+  margin: 0;            /* prevents unexpected spacing from inline styles */
 }
 
   </style>
