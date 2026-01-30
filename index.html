@@ -803,6 +803,26 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
   text-align: center;
 }
 
+/* ==========================================================
+   Email capture consent cleanup
+   ========================================================== */
+
+.email-consent{
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 12px 0 14px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: rgba(232,236,255,.72);
+  cursor: pointer; /* click text toggles checkbox */
+}
+
+.email-consent input[type="checkbox"]{
+  margin-top: 2px;
+  flex: 0 0 auto;
+}
+
   </style>
 </head>
 
@@ -1344,12 +1364,12 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
       <h3>Exclusive discount</h3>
       <p>Enter your email to receive an exclusive discount code.</p>
 
-      <!-- Form view -->
+<!-- Form view -->
 <div id="emailFormWrap">
   <input id="emailInput" type="email" placeholder="you@example.com" autocomplete="email" />
 
-  <!-- GDPR consent (required for Mailchimp GDPR audiences) -->
-  <label style="display:flex; gap:10px; align-items:flex-start; margin:10px 0; color:rgba(232,236,255,.72); font-size:13px; line-height:1.4;">
+   <!-- GDPR consent -->
+  <label class="email-consent">
     <input type="checkbox" id="emailConsent" />
     <span>
       I agree to receive emails from PIP HERO about product updates, educational resources, and occasional offers.
