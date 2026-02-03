@@ -25,6 +25,11 @@
       --radius2: 26px;
       --max: 1140px;
       --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+
+      /* Section spacing (desktop/tablet) */
+      --section-y: 70px;          /* was 86px */
+      --section-y-tight: 54px;    /* was 64px */
+      --section-headspace: 92px;  /* was 120px */
     }
 
     *{box-sizing:border-box}
@@ -44,9 +49,32 @@
     a{color:inherit; text-decoration:none}
     button{font-family:inherit}
     .container{max-width:var(--max); margin:0 auto; padding:0 22px}
-    .section{padding:86px 0}
-    .section.tight{padding:64px 0}
-    .section.headspace{padding-top:120px}
+
+    /* ==========================================================
+       Global section spacing (desktop/tablet)
+       ========================================================== */
+
+    .section{
+      padding: var(--section-y) 0;
+    }
+
+    .section.tight{
+      padding: var(--section-y-tight) 0;
+    }
+
+    /* Hero top spacing */
+    .section.headspace{
+      padding-top: var(--section-headspace);
+    }
+
+    /* Reduce perceived gaps between consecutive sections */
+    .section + .section{
+      padding-top: calc(var(--section-y) * 0.75);
+    }
+
+    .section.tight + .section{
+      padding-top: calc(var(--section-y) * 0.75);
+    }
 
     /* ==========================================================
        Stability (Option 2):
@@ -149,7 +177,7 @@
       align-items:center; justify-content:center;
       cursor:pointer;
 
-color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browsers */
+      color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browsers */
     }
     .hamburger svg{opacity:.9}
 
@@ -306,28 +334,28 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
     .feature h3{margin:0 0 6px; font-size:15px; letter-spacing:.1px}
     .feature p{margin:0; color:rgba(232,236,255,.72); line-height:1.55; font-size:14px}
 
-/* === How it works: integrated icon + heading (Option A) === */
-.feature .top{
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 8px;
-}
+    /* === How it works: integrated icon + heading (Option A) === */
+    .feature .top{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
 
-.feature .top .icon{
-  width: 36px;
-  height: 36px;
-  border-radius: 12px;
-  margin: 0;
-  flex: 0 0 auto;
-}
+    .feature .top .icon{
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      margin: 0;
+      flex: 0 0 auto;
+    }
 
-.feature .top h3{
-  margin: 0;
-  font-size: 15px;
-  letter-spacing: .1px;
-  line-height: 1.25;
-}
+    .feature .top h3{
+      margin: 0;
+      font-size: 15px;
+      letter-spacing: .1px;
+      line-height: 1.25;
+    }
 
     /* FAQ */
     .faqgrid{
@@ -404,31 +432,30 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
     .price .val .num{font-size:34px; font-weight:800; letter-spacing:-.6px}
     .price .val .per{color:rgba(232,236,255,.55); font-size:13px}
     .price ul{margin:0; padding-left:18px; list-style:disc; display:grid; gap:10px}
-    .price li{color: rgba(232,236,255,.82); font-size:14px; line-height:1.45;
-}
+    .price li{color: rgba(232,236,255,.82); font-size:14px; line-height:1.45;}
 
-/* Legal section lists */
-.feature ul{
-  margin: 10px 0 0;
-  padding-left: 18px;
-  display: grid;
-  gap: 10px;
-}
+    /* Legal section lists */
+    .feature ul{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 10px;
+    }
 
-.feature li{
-  color: rgba(232,236,255,.82);
-  font-size: 14px;
-  line-height: 1.45;
-}
+    .feature li{
+      color: rgba(232,236,255,.82);
+      font-size: 14px;
+      line-height: 1.45;
+    }
 
-.feature li::marker{
-  color: rgba(124,92,255,.85);
-}
+    .feature li::marker{
+      color: rgba(124,92,255,.85);
+    }
 
-/* Accent-coloured bullet markers */
-.price li::marker{
-  color: rgba(124,92,255,.85);
-}
+    /* Accent-coloured bullet markers */
+    .price li::marker{
+      color: rgba(124,92,255,.85);
+    }
 
     /* Recommended pricing highlight */
     .price.recommended{
@@ -606,251 +633,268 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
       flex-shrink: 0;
     }
 
-/* GPU-safety fallback for fragile render paths */
-@media (prefers-reduced-motion: reduce) {
-  body {
-    background: linear-gradient(180deg, #070A12, #0B1020);
-  }
-}
+    /* GPU-safety fallback for fragile render paths */
+    @media (prefers-reduced-motion: reduce) {
+      body {
+        background: linear-gradient(180deg, #070A12, #0B1020);
+      }
+    }
 
-/* ==========================================================
-   Mobile optimisation
-   ========================================================== */
+    /* ==========================================================
+       Mobile optimisation
+       ========================================================== */
 
-@media (max-width: 720px){
+    @media (max-width: 720px){
 
-  /* Base section spacing */
-  .section{
-    padding: 56px 0;
-  }
+      /* ==========================================================
+         Base section spacing (mobile)
+         ========================================================== */
 
-  .section.tight{
-    padding: 44px 0;
-  }
+      :root{
+        --section-y: 52px;
+        --section-y-tight: 42px;
+        --section-headspace: 52px;
+      }
 
-  .section.headspace{
-    padding-top: 49px;
-  }
+      .section{
+        padding: var(--section-y) 0;
+      }
 
-  /* ==========================================================
-     Mobile section spacing refinements
-     (visual rhythm cleanup)
-     ========================================================== */
+      .section.tight{
+        padding: var(--section-y-tight) 0;
+      }
 
-  /* Tighten spacing after hero / risk notice */
-  #features{
-    padding-top: 44px;
-    padding-bottom: 48px;
-  }
+      .section.headspace{
+        padding-top: var(--section-headspace);
+      }
 
-  /* Tighten spacing between major stacked sections */
-  #pricing,
-  #quiz,
-  #faq{
-    padding-top: 48px;
-    padding-bottom: 48px;
-  }
+      /* Reduce perceived gaps between consecutive sections (mobile) */
+      .section + .section{
+        padding-top: calc(var(--section-y) * 0.80);
+      }
 
-  /* Legal section can breathe slightly more */
-  #terms{
-    padding-top: 48px;
-    padding-bottom: 56px;
-  }
+      .section.tight + .section{
+        padding-top: calc(var(--section-y) * 0.80);
+      }
 
-  /* ==========================================================
-     Hero
-     ========================================================== */
+      /* ==========================================================
+         Mobile section spacing refinements
+         (visual rhythm cleanup)
+         ========================================================== */
 
-  h1{
-    font-size: clamp(30px, 8vw, 38px);
-    line-height: 1.08;
-  }
+      /* Tighten spacing after hero / risk notice */
+      #features{
+        padding-top: 44px;
+        padding-bottom: 48px;
+      }
 
-  .lead{
-    font-size: 15px;
-  }
+      /* Tighten spacing between major stacked sections */
+      #pricing,
+      #quiz,
+      #faq{
+        padding-top: 48px;
+        padding-bottom: 48px;
+      }
 
-  /* Kicker (force single line on mobile) */
-  .kicker{
-    white-space: nowrap;
-    font-size: 12.5px;
-  }
+      /* Legal section can breathe slightly more */
+      #terms{
+        padding-top: 48px;
+        padding-bottom: 56px;
+      }
 
-  /* ==========================================================
-     Buttons & header
-     ========================================================== */
+      /* ==========================================================
+         Hero
+         ========================================================== */
 
-  .btn{
-    padding: 12px 16px;
-    font-size: 15px;
-  }
+      h1{
+        font-size: clamp(30px, 8vw, 38px);
+        line-height: 1.08;
+      }
 
-  .hamburger{
-    width: 44px;
-    height: 44px;
-  }
+      .lead{
+        font-size: 15px;
+      }
 
-  /* ==========================================================
-     Cards
-     ========================================================== */
+      /* Kicker (force single line on mobile) */
+      .kicker{
+        white-space: nowrap;
+        font-size: 12.5px;
+      }
 
-  .feature,
-  .price{
-    padding: 20px;
-  }
+      /* ==========================================================
+         Buttons & header
+         ========================================================== */
 
-  .pricing{
-    gap: 16px;
-  }
+      .btn{
+        padding: 12px 16px;
+        font-size: 15px;
+      }
 
-  /* Lists */
-  .price ul,
-  .feature ul{
-    gap: 12px;
-  }
+      .hamburger{
+        width: 44px;
+        height: 44px;
+      }
 
-  /* ==========================================================
-     Quiz
-     ========================================================== */
+      /* ==========================================================
+         Cards
+         ========================================================== */
 
-  .opt{
-    padding: 14px 12px;
-  }
+      .feature,
+      .price{
+        padding: 20px;
+      }
 
-  .opt span{
-    font-size: 15px;
-  }
+      .pricing{
+        gap: 16px;
+      }
 
-  /* ==========================================================
-     FAQ
-     ========================================================== */
+      /* Lists */
+      .price ul,
+      .feature ul{
+        gap: 12px;
+      }
 
-  details{
-    padding: 16px;
-  }
+      /* ==========================================================
+         Quiz
+         ========================================================== */
 
-  details p{
-    font-size: 15px;
-  }
+      .opt{
+        padding: 14px 12px;
+      }
 
-  /* ==========================================================
-     Prevent sticky header from covering anchors (mobile only)
-     ========================================================== */
+      .opt span{
+        font-size: 15px;
+      }
 
-  #features,
-  #pricing,
-  #quiz,
-  #faq,
-  #terms{
-    scroll-margin-top: 100px;
-  }
+      /* ==========================================================
+         FAQ
+         ========================================================== */
 
-  /* ==========================================================
-     Legal section layout (stack vertically on mobile)
-     ========================================================== */
+      details{
+        padding: 16px;
+      }
 
-  #terms .features{
-    grid-template-columns: 1fr !important;
-  }
+      details p{
+        font-size: 15px;
+      }
 
-  #terms .feature{
-    grid-column: span 12 !important;
-  }
+      /* ==========================================================
+         Prevent sticky header from covering anchors (mobile only)
+         ========================================================== */
 
-  /* ==========================================================
-     Footer
-     ========================================================== */
+      #features,
+      #pricing,
+      #quiz,
+      #faq,
+      #terms{
+        scroll-margin-top: 100px;
+      }
 
-  footer .footer{
-    flex-direction: column;
-    gap: 14px;
-    text-align: center;
-  }
+      /* ==========================================================
+         Legal section layout (stack vertically on mobile)
+         ========================================================== */
 
-  footer .brand{
-    justify-content: center;
-  }
-}
+      #terms .features{
+        grid-template-columns: 1fr !important;
+      }
 
-/* ==========================================================
-   Mobile header cleanup
-   ========================================================== */
+      #terms .feature{
+        grid-column: span 12 !important;
+      }
 
-@media (max-width: 520px){
-  /* Hide secondary CTA to prevent header crowding */
-  .navcta a.btn.ghost{
-    display: none;
-  }
-}
+      /* ==========================================================
+         Footer
+         ========================================================== */
 
-/* ==========================================================
-   Extra-small safety net
-   ========================================================== */
+      footer .footer{
+        flex-direction: column;
+        gap: 14px;
+        text-align: center;
+      }
 
-@media (max-width: 380px){
-  /* Hide decorative pulse if space is extremely tight */
-  .kicker .pulse{
-    display: none;
-  }
-}
+      footer .brand{
+        justify-content: center;
+      }
+    }
 
-/* ==========================================================
-   Mobile menu button alignment
-   ========================================================== */
+    /* ==========================================================
+       Mobile header cleanup
+       ========================================================== */
 
-.mobile .btn{
-  justify-content: center;
-  text-align: center;
-}
+    @media (max-width: 520px){
+      /* Hide secondary CTA to prevent header crowding */
+      .navcta a.btn.ghost{
+        display: none;
+      }
+    }
 
-/* ==========================================================
-   FIX: Email modal form layout (robust + browser-safe)
-   ========================================================== */
+    /* ==========================================================
+       Extra-small safety net
+       ========================================================== */
 
-#emailModal .modal{ text-align: left; }
+    @media (max-width: 380px){
+      /* Hide decorative pulse if space is extremely tight */
+      .kicker .pulse{
+        display: none;
+      }
+    }
 
-#emailModal #emailFormWrap{
-  display: flex;
-  flex-direction: column;
-  gap: 14px;          /* controls spacing between input/consent/buttons */
-  width: 100%;
-}
+    /* ==========================================================
+       Mobile menu button alignment
+       ========================================================== */
 
-#emailModal #emailInput{
-  width: 100%;
-  margin: 0;          /* overrides .modal input margins */
-}
+    .mobile .btn{
+      justify-content: center;
+      text-align: center;
+    }
 
-/* Consent row: grid prevents overflow + keeps checkbox left */
-#emailModal .email-consent{
-  display: grid;
-  grid-template-columns: 18px 1fr;
-  column-gap: 10px;
-  align-items: start;
-  width: 100%;
-  margin: 6px 0;   /* 👈 adds clean breathing room above & below */
-  cursor: pointer;
-}
+    /* ==========================================================
+       FIX: Email modal form layout (robust + browser-safe)
+       ========================================================== */
 
-#emailModal .email-consent input[type="checkbox"]{
-  margin: 2px 0 0 0;
-}
+    #emailModal .modal{ text-align: left; }
 
-#emailModal .email-consent span{
-  display: block;
-  min-width: 0;
-  white-space: normal;        /* ensures wrapping */
-  overflow-wrap: anywhere;    /* prevents text escaping right */
-  color: rgba(232,236,255,.72);
-  font-size: 13px;
-  line-height: 1.45;
-}
+    #emailModal #emailFormWrap{
+      display: flex;
+      flex-direction: column;
+      gap: 14px;          /* controls spacing between input/consent/buttons */
+      width: 100%;
+    }
 
-/* Button row: keep it tidy */
-#emailModal #emailFormWrap > div{
-  margin: 0;
-}
+    #emailModal #emailInput{
+      width: 100%;
+      margin: 0;          /* overrides .modal input margins */
+    }
 
+    /* Consent row: grid prevents overflow + keeps checkbox left */
+    #emailModal .email-consent{
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      column-gap: 10px;
+      align-items: start;
+      width: 100%;
+      margin: 6px 0;   /* adds clean breathing room above & below */
+      cursor: pointer;
+    }
+
+    #emailModal .email-consent input[type="checkbox"]{
+      margin: 2px 0 0 0;
+    }
+
+    #emailModal .email-consent span{
+      display: block;
+      min-width: 0;
+      white-space: normal;        /* ensures wrapping */
+      overflow-wrap: anywhere;    /* prevents text escaping right */
+      color: rgba(232,236,255,.72);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    /* Button row: keep it tidy */
+    #emailModal #emailFormWrap > div{
+      margin: 0;
+    }
   </style>
 </head>
 
@@ -894,9 +938,9 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
           <a href="#faq">FAQs</a>
           <a href="#terms">Legal</a>
           <div class="row" style="flex-direction: column; gap: 10px;">
-  <a class="btn ghost" href="#quiz" style="width:100%;">Quiz</a>
-  <a class="btn primary" href="#pricing" style="width:100%;">View pricing</a>
-</div>
+            <a class="btn ghost" href="#quiz" style="width:100%;">Quiz</a>
+            <a class="btn primary" href="#pricing" style="width:100%;">View pricing</a>
+          </div>
         </div>
       </div>
     </div>
@@ -918,7 +962,6 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
               <span class="grad hero-line-2">disciplined Futures, FX & Crypto traders</span>.
             </h1>
 
-            <!-- FIXED: no nested <p> tags -->
             <p class="lead">
               PIP HERO provides structured, rules-based indicators and automation designed to support<br>
               consistency, discipline, and risk control — without reliance on discretionary signals.
@@ -962,378 +1005,362 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
 
         <div class="features">
 
-  <div class="feature">
-    <div class="top">
-      <div class="icon" aria-hidden="true">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <path d="M4 19V5m0 14h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <path d="M7 15l3-3 3 2 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <h3>Define context</h3>
-    </div>
-    <p>
-      Use trend, regime, and session filters to define when trading is permitted — before thinking about entries.
-    </p>
-  </div>
+          <div class="feature">
+            <div class="top">
+              <div class="icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 19V5m0 14h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M7 15l3-3 3 2 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <h3>Define context</h3>
+            </div>
+            <p>
+              Use trend, regime, and session filters to define when trading is permitted — before thinking about entries.
+            </p>
+          </div>
 
-  <div class="feature">
-    <div class="top">
-      <div class="icon" aria-hidden="true">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z"
-                stroke="currentColor" stroke-width="2"/>
-        </svg>
-      </div>
-      <h3>Apply rules-based execution</h3>
-    </div>
-    <p>
-      Indicators provide explicit entry and exit frameworks, with discretion applied only where defined — keeping decisions structured, not reactive.
-    </p>
-  </div>
+          <div class="feature">
+            <div class="top">
+              <div class="icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z"
+                        stroke="currentColor" stroke-width="2"/>
+                </svg>
+              </div>
+              <h3>Apply rules-based execution</h3>
+            </div>
+            <p>
+              Indicators provide explicit entry and exit frameworks, with discretion applied only where defined — keeping decisions structured, not reactive.
+            </p>
+          </div>
 
-  <div class="feature">
-    <div class="top">
-      <div class="icon" aria-hidden="true">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2"/>
-          <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
-                stroke="currentColor" stroke-width="2"/>
-        </svg>
-      </div>
-      <h3>Respect risk guardrails</h3>
-    </div>
-    <p>
-      Designed to support drawdown limits, session boundaries, and trade-frequency discipline.
-    </p>
-  </div>
+          <div class="feature">
+            <div class="top">
+              <div class="icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2"/>
+                  <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
+                        stroke="currentColor" stroke-width="2"/>
+                </svg>
+              </div>
+              <h3>Respect risk guardrails</h3>
+            </div>
+            <p>
+              Designed to support drawdown limits, session boundaries, and trade-frequency discipline.
+            </p>
+          </div>
 
-  <div class="feature">
-    <div class="top">
-      <div class="icon" aria-hidden="true">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <path d="M21 12a9 9 0 1 1-3-6.7"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <path d="M21 3v6h-6"
-                stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <h3>Review and repeat</h3>
-    </div>
-    <p>
-      Because the rules are explicit, journaling becomes objective — helping you improve with consistency.
-    </p>
-  </div>
+          <div class="feature">
+            <div class="top">
+              <div class="icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M21 12a9 9 0 1 1-3-6.7"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M21 3v6h-6"
+                        stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <h3>Review and repeat</h3>
+            </div>
+            <p>
+              Because the rules are explicit, journaling becomes objective — helping you improve with consistency.
+            </p>
+          </div>
 
-</div>
-
+        </div>
       </div>
     </section>
 
-<!-- PRICING -->
-<section class="section" id="pricing">
-  <div class="container">
-    <div class="heading">
-      <div>
-        <h2>Choose your toolkit</h2>
-        <p>
-          Structured tools and automation designed to support disciplined execution,<br>
-          with risk constraints built in.
-        </p>
-      </div>
-    </div>
-
-    <div class="pricing">
-
-<!-- Inner Circle -->
-<div class="price" data-checkout="https://buy.stripe.com/7sYeVdawe99c9gQaU12B204">
-  <div class="phead">
-    <div class="chiprow"></div>
-    <div class="tier">Inner Circle</div>
-    <div class="desc">
-      Private community access with direct guidance and accountability — for committed traders only.
-    </div>
-  </div>
-  <div class="val">
-    <div class="num">£49</div>
-    <div class="per">/ month</div>
-  </div>
-  <ul>
-    <li>Access to a private, serious trading community</li>
-    <li>Direct 1-to-1 access to review why trades are not working</li>
-    <li>Ongoing accountability focused on execution and discipline</li>
-  </ul>
-  <div class="actions">
-    <button class="btn primary" type="button"
-      data-product="Inner Circle" data-price="£49/month">
-      Subscribe
-    </button>
-  </div>
-</div>
-
-      <!-- Indicator -->
-<div class="price" data-checkout="https://buy.stripe.com/aFa6oHbAi1GK50Afah2B203">
-  <div class="phead">
-    <div class="chiprow"></div>
-    <div class="tier">Indicator</div>
-    <div class="desc">
-      An indicator that can be applied to your chart to advise when a trade entry is valid.
-    </div>
-  </div>
-
-  <div class="val">
-    <div class="num">£99</div>
-    <div class="per">one-time</div>
-  </div>
-
-  <ul>
-  <li>Rules-based indicator for structured trade execution</li>
-  <li>Adaptable to both scalping and swing trading approaches</li>
-  <li>Designed for traders who prioritise discipline over discretion</li>
-</ul>
-
-  <div class="actions">
-    <button class="btn primary" type="button"
-      data-product="PIP HERO Indicator" data-price="£99">
-      Purchase
-    </button>
-  </div>
-</div>
-
-      <!-- Automated Swing Trading Bot -->
-      <div class="price" data-checkout="https://buy.stripe.com/cNi9AT0VE0CGfFed292B201">
-        <div class="phead">
-          <div class="chiprow"></div>
-          <div class="tier">Automated Trading Bot</div>
-          <div class="desc">
-         A hands-off trading bot for those who want rules-based execution without watching the charts.
+    <!-- PRICING -->
+    <section class="section" id="pricing">
+      <div class="container">
+        <div class="heading">
+          <div>
+            <h2>Choose your toolkit</h2>
+            <p>
+              Structured tools and automation designed to support disciplined execution,<br>
+              with risk constraints built in.
+            </p>
           </div>
         </div>
-        <div class="val">
-          <div class="num">£499</div>
-          <div class="per">one-time</div>
-        </div>
-        <ul>
-          <li>Fully automated execution once configured</li>
-          <li>Capable of trading multiple instruments in parallel</li>
-          <li>Rules, risk limits, and position sizing defined by you</li>
-        </ul>
-        <div class="actions">
-          <button class="btn primary" type="button"
-            data-product="Automated Swing Trading Bot" data-price="£499">
-            Purchase
-          </button>
+
+        <div class="pricing">
+
+          <!-- Inner Circle -->
+          <div class="price" data-checkout="https://buy.stripe.com/7sYeVdawe99c9gQaU12B204">
+            <div class="phead">
+              <div class="chiprow"></div>
+              <div class="tier">Inner Circle</div>
+              <div class="desc">
+                Private community access with direct guidance and accountability — for committed traders only.
+              </div>
+            </div>
+            <div class="val">
+              <div class="num">£49</div>
+              <div class="per">/ month</div>
+            </div>
+            <ul>
+              <li>Access to a private, serious trading community</li>
+              <li>Direct 1-to-1 access to review why trades are not working</li>
+              <li>Ongoing accountability focused on execution and discipline</li>
+            </ul>
+            <div class="actions">
+              <button class="btn primary" type="button"
+                data-product="Inner Circle" data-price="£49/month">
+                Subscribe
+              </button>
+            </div>
+          </div>
+
+          <!-- Indicator -->
+          <div class="price" data-checkout="https://buy.stripe.com/aFa6oHbAi1GK50Afah2B203">
+            <div class="phead">
+              <div class="chiprow"></div>
+              <div class="tier">Indicator</div>
+              <div class="desc">
+                An indicator that can be applied to your chart to advise when a trade entry is valid.
+              </div>
+            </div>
+
+            <div class="val">
+              <div class="num">£99</div>
+              <div class="per">one-time</div>
+            </div>
+
+            <ul>
+              <li>Rules-based indicator for structured trade execution</li>
+              <li>Adaptable to both scalping and swing trading approaches</li>
+              <li>Designed for traders who prioritise discipline over discretion</li>
+            </ul>
+
+            <div class="actions">
+              <button class="btn primary" type="button"
+                data-product="PIP HERO Indicator" data-price="£99">
+                Purchase
+              </button>
+            </div>
+          </div>
+
+          <!-- Automated Swing Trading Bot -->
+          <div class="price" data-checkout="https://buy.stripe.com/cNi9AT0VE0CGfFed292B201">
+            <div class="phead">
+              <div class="chiprow"></div>
+              <div class="tier">Automated Trading Bot</div>
+              <div class="desc">
+                A hands-off trading bot for those who want rules-based execution without watching the charts.
+              </div>
+            </div>
+            <div class="val">
+              <div class="num">£499</div>
+              <div class="per">one-time</div>
+            </div>
+            <ul>
+              <li>Fully automated execution once configured</li>
+              <li>Capable of trading multiple instruments in parallel</li>
+              <li>Rules, risk limits, and position sizing defined by you</li>
+            </ul>
+            <div class="actions">
+              <button class="btn primary" type="button"
+                data-product="Automated Swing Trading Bot" data-price="£499">
+                Purchase
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
-
-    </div>
-  </div>
-</section>
-
+    </section>
 
     <!-- REPURPOSED QUIZ FUNNEL (Manual vs Automated) -->
-<section class="section" id="quiz">
-  <div class="container">
-    <div class="quiz">
-      <h2>Find your best starting point</h2>
-      <p>
-        Answer one quick question and we’ll recommend the right product. You’ll be taken to the matching option.
-      </p>
+    <section class="section" id="quiz">
+      <div class="container">
+        <div class="quiz">
+          <h2>Find your best starting point</h2>
+          <p>
+            Answer one quick question and we’ll recommend the right product. You’ll be taken to the matching option.
+          </p>
 
-      <div class="quizgrid">
-        <div class="qcard" style="grid-column: 1 / -1;">
-          <div class="qtitle">1) How do you want to trade?</div>
+          <div class="quizgrid">
+            <div class="qcard" style="grid-column: 1 / -1;">
+              <div class="qtitle">1) How do you want to trade?</div>
 
-          <label class="opt">
-            <input type="radio" name="route" value="manual" checked />
-            <span><strong>Manual (recommended):</strong> I want rules-based structure on the chart while I execute.</span>
-          </label>
+              <label class="opt">
+                <input type="radio" name="route" value="manual" checked />
+                <span><strong>Manual (recommended):</strong> I want rules-based structure on the chart while I execute.</span>
+              </label>
 
-          <label class="opt">
-            <input type="radio" name="route" value="auto" />
-            <span><strong>Hands-off:</strong> I want an automated rules engine to execute without watching charts.</span>
-          </label>
+              <label class="opt">
+                <input type="radio" name="route" value="auto" />
+                <span><strong>Hands-off:</strong> I want an automated rules engine to execute without watching charts.</span>
+              </label>
 
-          <label class="opt">
-            <input type="radio" name="route" value="unsure" />
-            <span><strong>Not sure:</strong> I want the safest starting point.</span>
-          </label>
+              <label class="opt">
+                <input type="radio" name="route" value="unsure" />
+                <span><strong>Not sure:</strong> I want the safest starting point.</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="quizactions">
+            <button class="btn primary" id="quizBtn" type="button">Show results</button>
+            <a class="btn ghost" href="#pricing">Skip — view all</a>
+          </div>
+
+          <div class="result" id="quizResult" aria-live="polite"></div>
         </div>
       </div>
+    </section>
 
-      <div class="quizactions">
-        <button class="btn primary" id="quizBtn" type="button">Show results</button>
-        <a class="btn ghost" href="#pricing">Skip — view all</a>
+    <!-- FAQs after quiz -->
+    <section class="section tight" id="faq">
+      <div class="container">
+        <div class="heading">
+          <div>
+            <h2>FAQs</h2>
+            <p>Clear answers to common questions you may have about PIP HERO.</p>
+          </div>
+        </div>
+
+        <div class="faqgrid">
+          <details>
+            <summary>
+              Are these signals?
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <p>
+              No. PIP HERO does not provide signals or trade alerts. The indicator highlights when predefined entry conditions are valid, but does not provide trade alerts or instructions.
+              <br><br>
+              For the automated trading bot, trades are executed automatically according to a fixed ruleset that you configure in advance — without discretionary decision-making.
+            </p>
+          </details>
+
+          <details>
+            <summary>
+              Who are these tools best suited for?
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <p>
+              These tools are designed for traders who want structure, rules, and accountability in their execution. They are not designed for beginners looking for signals, nor for traders unwilling to follow defined rules or review their performance objectively.
+            </p>
+          </details>
+
+          <details>
+            <summary>
+              What platforms are supported?
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <p>
+              The indicator and automated trading bot are delivered via
+              <strong>TradingView</strong>.<br><br>
+
+              Community-based products, such as the Inner Circle, are delivered via
+              <strong>Discord</strong>.<br><br>
+
+              Platform support is therefore limited to TradingView and its supported brokers
+              and instruments, alongside Discord for community access where applicable.
+            </p>
+          </details>
+
+          <details>
+            <summary>
+              How do I receive the product after purchase?
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <p>
+              After purchase, you’ll receive a confirmation email containing your
+              <strong>PDF setup guide</strong>.<br><br>
+
+              Your PDF includes the link to access your product,
+              along with setup instructions.<br><br>
+
+              If you don’t receive the email within <strong>10 minutes</strong>, please check your junk folder,
+              or contact us for support.
+            </p>
+          </details>
+
+          <details>
+            <summary>
+              Do you guarantee results?
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <p>
+              No. Trading involves risk, and outcomes depend on execution, discipline, and market conditions.
+              PIP HERO provides indicators and automation tools that define when entries and exits are valid, but does not provide performance guarantees or investment advice.
+            </p>
+          </details>
+
+          <details>
+            <summary>
+              Does the indicator automatically place trades?
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <p>No. The indicator is analytical only. Trades are placed manually unless you are using the automated trading bot.</p>
+          </details>
+        </div>
       </div>
-
-      <div class="result" id="quizResult" aria-live="polite"></div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQs after quiz -->
-<section class="section tight" id="faq">
-  <div class="container">
-    <div class="heading">
-      <div>
-        <h2>FAQs</h2>
-        <p>Clear answers to common questions you may have about PIP HERO.</p>
-      </div>
-    </div>
-
-    <div class="faqgrid">
-      <!-- 1) Signals -->
-      <details>
-        <summary>
-          Are these signals?
-          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </summary>
-        <p>
-  No. PIP HERO does not provide signals or trade alerts. The indicator highlights when predefined entry conditions are valid, but does not provide trade alerts or instructions.
-  <br><br>
-  For the automated trading bot, trades are executed automatically according to a fixed ruleset that you configure in advance — without discretionary decision-making.
-</p>
-      </details>
-
-      <!-- 2) Who it's for -->
-      <details>
-        <summary>
-          Who are these tools best suited for?
-          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </summary>
-        <p>
-          These tools are designed for traders who want structure, rules, and accountability in their execution. They are not designed for beginners looking for signals, nor for traders unwilling to follow defined rules or review their performance objectively.
-        </p>
-      </details>
-
-      <!-- 3) Platforms -->
-      <details>
-        <summary>
-          What platforms are supported?
-          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </summary>
-        <p>
-  The indicator and automated trading bot are delivered via
-  <strong>TradingView</strong>.<br><br>
-
-  Community-based products, such as the Inner Circle, are delivered via
-  <strong>Discord</strong>.<br><br>
-
-  Platform support is therefore limited to TradingView and its supported brokers
-  and instruments, alongside Discord for community access where applicable.
-</p>
-
-      </details>
-
-      <!-- 4) Delivery -->
-      <details>
-        <summary>
-          How do I receive the product after purchase?
-          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </summary>
-        <p>
-  After purchase, you’ll receive a confirmation email containing your
-  <strong>PDF setup guide</strong>.<br><br>
-
-  Your PDF includes the link to access your product,
-  along with setup instructions.<br><br>
-
-  If you don’t receive the email within <strong>10 minutes</strong>, please check your junk folder,
-  or contact us for support.
-</p>
-
-      </details>
-
-      <!-- 5) Guarantees -->
-      <details>
-        <summary>
-          Do you guarantee results?
-          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </summary>
-       <p>
-  No. Trading involves risk, and outcomes depend on execution, discipline, and market conditions.
-  PIP HERO provides indicators and automation tools that define when entries and exits are valid, but does not provide performance guarantees or investment advice.
-</p>
-      </details>
-
-      <!-- 6) Choosing -->
-      <details>
-        <summary>
-          Does the indicator automatically place trades?
-          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </summary>
-        <p>No. The indicator is analytical only. Trades are placed manually unless you are using the automated trading bot.</p>
-      </details>
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- LEGAL -->
-<section class="section tight" id="terms">
-  <div class="container">
-    <div class="heading">
-      <div>
-        <h2>Legal</h2>
-        <p>Important information regarding risk, usage, and limitations.</p>
+    <section class="section tight" id="terms">
+      <div class="container">
+        <div class="heading">
+          <div>
+            <h2>Legal</h2>
+            <p>Important information regarding risk, usage, and limitations.</p>
+          </div>
+        </div>
+
+        <div class="features" style="margin-top:0;">
+          <div class="feature" style="grid-column: span 6; min-height:auto;">
+            <h3>Terms of Service</h3>
+            <ul>
+              <li>All PIP HERO products are provided as-is for analytical and educational purposes only.</li>
+              <li>You are responsible for how the tools are used and for all trading decisions made.</li>
+              <li><strong>All sales are final.</strong> Due to the digital nature of the products, no refunds are provided.</li>
+              <li>Access and licensing are granted to the original purchaser only.</li>
+              <li>Products may not be shared, resold, or redistributed in any form.</li>
+            </ul>
+          </div>
+
+          <div class="feature" id="risk" style="grid-column: span 6; min-height:auto;">
+            <h3>Risk Disclosure</h3>
+            <ul>
+              <li>Trading futures, foreign exchange, cryptocurrencies, and CFDs involves substantial risk.</li>
+              <li>Losses can exceed initial capital, and trading may not be suitable for all individuals.</li>
+              <li>PIP HERO provides indicators and automated trading tools that define valid trading conditions.</li>
+              <li>We do not provide investment advice, trading signals, or performance guarantees.</li>
+              <li>You are solely responsible for configuring risk parameters, position sizing, and execution.</li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
-
-    <div class="features" style="margin-top:0;">
-
-      <!-- Terms of Service -->
-      <div class="feature" style="grid-column: span 6; min-height:auto;">
-        <h3>Terms of Service</h3>
-
-        <ul>
-          <li>All PIP HERO products are provided as-is for analytical and educational purposes only.</li>
-          <li>You are responsible for how the tools are used and for all trading decisions made.</li>
-          <li><strong>All sales are final.</strong> Due to the digital nature of the products, no refunds are provided.</li>
-          <li>Access and licensing are granted to the original purchaser only.</li>
-          <li>Products may not be shared, resold, or redistributed in any form.</li>
-        </ul>
-      </div>
-
-      <!-- Risk Disclosure -->
-      <div class="feature" id="risk" style="grid-column: span 6; min-height:auto;">
-        <h3>Risk Disclosure</h3>
-
-        <ul>
-          <li>Trading futures, foreign exchange, cryptocurrencies, and CFDs involves substantial risk.</li>
-          <li>Losses can exceed initial capital, and trading may not be suitable for all individuals.</li>
-          <li>PIP HERO provides indicators and automated trading tools that define valid trading conditions.</li>
-          <li>We do not provide investment advice, trading signals, or performance guarantees.</li>
-          <li>You are solely responsible for configuring risk parameters, position sizing, and execution.</li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</section>
+    </section>
 
   </main>
 
   <footer>
     <div class="container">
       <div class="footer">
-      <div class="brand" aria-label="PIP HERO footer">
-  <img src="assets/logo.png" alt="PIP HERO logo" class="logo" />
-  <div>
-    <div style="font-weight:700; color:rgba(232,236,255,.92)">PIP HERO</div>
-  </div>
-</div>
+        <div class="brand" aria-label="PIP HERO footer">
+          <img src="assets/logo.png" alt="PIP HERO logo" class="logo" />
+          <div>
+            <div style="font-weight:700; color:rgba(232,236,255,.92)">PIP HERO</div>
+          </div>
+        </div>
 
         <div class="small">
           © <span id="year"></span> PIP HERO. All rights reserved.
@@ -1350,28 +1377,25 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
       <h3>Exclusive discount</h3>
       <p>Enter your email to receive an exclusive discount code.</p>
 
-<!-- Form view -->
-<div id="emailFormWrap">
-  <input id="emailInput" type="email" placeholder="you@example.com" autocomplete="email" />
+      <div id="emailFormWrap">
+        <input id="emailInput" type="email" placeholder="you@example.com" autocomplete="email" />
 
-   <!-- GDPR consent -->
-  <label class="email-consent">
-    <input type="checkbox" id="emailConsent" />
-    <span>
-      I agree to receive emails from PIP HERO about product updates, educational resources, and occasional offers.
-      Unsubscribe at any time.
-    </span>
-  </label>
+        <label class="email-consent">
+          <input type="checkbox" id="emailConsent" />
+          <span>
+            I agree to receive emails from PIP HERO about product updates, educational resources, and occasional offers.
+            Unsubscribe at any time.
+          </span>
+        </label>
 
-  <div style="display:flex; gap:10px; flex-wrap:wrap;">
-    <button class="btn primary" type="button" id="emailSubmitBtn">Get my discount</button>
-    <button class="btn ghost" type="button" id="emailNoThanksBtn">No thanks</button>
-  </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn primary" type="button" id="emailSubmitBtn">Get my discount</button>
+          <button class="btn ghost" type="button" id="emailNoThanksBtn">No thanks</button>
+        </div>
 
-  <p id="emailInlineError" style="display:none; margin:10px 0 0; color:rgba(232,236,255,.85); background:rgba(239,68,68,.14); border:1px solid rgba(239,68,68,.25); padding:10px 12px; border-radius:14px; font-size:13px; line-height:1.4;"></p>
-</div>
+        <p id="emailInlineError" style="display:none; margin:10px 0 0; color:rgba(232,236,255,.85); background:rgba(239,68,68,.14); border:1px solid rgba(239,68,68,.25); padding:10px 12px; border-radius:14px; font-size:13px; line-height:1.4;"></p>
+      </div>
 
-      <!-- Success view -->
       <div id="emailSuccessWrap" style="display:none; margin-top:10px;">
         <div style="border-radius:14px; border:1px solid rgba(52,211,153,.22); background:rgba(52,211,153,.10); padding:10px 12px; color:rgba(232,236,255,.88); font-size:13px; line-height:1.5;">
           <strong>You’re all set.</strong><br/>
@@ -1390,454 +1414,431 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
     </div>
   </div>
 
-<!-- Hidden Mailchimp submit (background) -->
-<iframe name="mc_hidden_iframe" id="mc_hidden_iframe" style="display:none;"></iframe>
+  <iframe name="mc_hidden_iframe" id="mc_hidden_iframe" style="display:none;"></iframe>
 
-<form id="mcHiddenForm"
-  action="https://piphero.us18.list-manage.com/subscribe/post?u=0410bdd311b58b9c236a2e4bf&amp;id=1d4e3a8fdd&amp;f_id=00e3b2e6f0"
-  method="post"
-  target="mc_hidden_iframe"
-  style="display:none;"
->
-  <input type="email" name="EMAIL" id="mcHiddenEmail" value="" />
+  <form id="mcHiddenForm"
+    action="https://piphero.us18.list-manage.com/subscribe/post?u=0410bdd311b58b9c236a2e4bf&amp;id=1d4e3a8fdd&amp;f_id=00e3b2e6f0"
+    method="post"
+    target="mc_hidden_iframe"
+    style="display:none;"
+  >
+    <input type="email" name="EMAIL" id="mcHiddenEmail" value="" />
+    <input type="hidden" name="gdpr[105388]" id="mcHiddenGdpr" value="Y" />
+    <input type="hidden" name="tags" value="3131179" />
 
-  <!-- GDPR consent checkbox field (Mailchimp expects this) -->
-  <input type="hidden" name="gdpr[105388]" id="mcHiddenGdpr" value="Y" />
+    <div style="position:absolute; left:-5000px;" aria-hidden="true">
+      <input type="text" name="b_0410bdd311b58b9c236a2e4bf_1d4e3a8fdd" tabindex="-1" value="">
+    </div>
+  </form>
 
-  <!-- Tag from your embed -->
-  <input type="hidden" name="tags" value="3131179" />
+  <script>
+    (function () {
+      function $(id){ return document.getElementById(id); }
 
-  <!-- Bot trap (from your embed) -->
-  <div style="position:absolute; left:-5000px;" aria-hidden="true">
-    <input type="text" name="b_0410bdd311b58b9c236a2e4bf_1d4e3a8fdd" tabindex="-1" value="">
-  </div>
-</form>
+      window.addEventListener('DOMContentLoaded', function () {
+        // Mobile menu
+        var hamburger = $('hamburger');
+        var mobileMenu = $('mobileMenu');
 
-<!-- SINGLE, HARDENED SCRIPT (no optional-chaining assignments) -->
-<script>
-  (function () {
-    function $(id){ return document.getElementById(id); }
-
-    window.addEventListener('DOMContentLoaded', function () {
-      // Mobile menu
-      var hamburger = $('hamburger');
-      var mobileMenu = $('mobileMenu');
-
-      function setMenu(open){
-        if(!mobileMenu) return;
-        mobileMenu.classList.toggle('show', open);
-        if(hamburger) hamburger.setAttribute('aria-expanded', String(open));
-      }
-
-      if(hamburger){
-        hamburger.addEventListener('click', function () {
-          var open = !(mobileMenu && mobileMenu.classList.contains('show'));
-          setMenu(open);
-        });
-      }
-
-      if(mobileMenu){
-        var links = mobileMenu.querySelectorAll('a');
-        for (var i=0; i<links.length; i++){
-          links[i].addEventListener('click', function(){ setMenu(false); });
+        function setMenu(open){
+          if(!mobileMenu) return;
+          mobileMenu.classList.toggle('show', open);
+          if(hamburger) hamburger.setAttribute('aria-expanded', String(open));
         }
-      }
 
-      // Footer year (guarded)
-      var yearEl = $('year');
-      if(yearEl) yearEl.textContent = String(new Date().getFullYear());
-
-      // Quiz (repurposed: Manual vs Automated, CTA-aligned)
-var quizBtn = $('quizBtn');
-var quizResult = $('quizResult');
-var lastRecommendation = null;
-
-function getRadioValue(name){
-  var el = document.querySelector('input[name="' + name + '"]:checked');
-  return el ? el.value : null;
-}
-
-// Decide recommendation
-function recommendProduct(route){
-  if(route === 'auto') return 'bot';
-  // manual + unsure -> indicator (default)
-  return 'indicator';
-}
-
-function cardFor(key){
-  // pricing order: 0=inner circle, 1=indicator, 2=bot
-  var map = { inner: 0, indicator: 1, bot: 2 };
-  var cards = document.querySelectorAll('#pricing .price');
-  return cards && cards.length ? (cards[map[key]] || null) : null;
-}
-
-function prettyName(key){
-  var names = {
-    indicator: 'Indicator',
-    bot: 'Automated Trading Bot',
-    inner: 'Inner Circle'
-  };
-  return names[key] || key;
-}
-
-function clearRecommended(){
-  var recs = document.querySelectorAll('#pricing .price.recommended');
-  for (var i = 0; i < recs.length; i++){
-    recs[i].classList.remove('recommended');
-  }
-}
-
-function highlightCard(card){
-  if(!card) return;
-  clearRecommended();
-  card.classList.add('recommended');
-}
-
-function scrollToPricingAndHighlight(key){
-  var card = cardFor(key);
-  if(!card) return;
-
-  var yOffset = -90; // sticky header offset
-  var y = card.getBoundingClientRect().top + window.pageYOffset + yOffset;
-  window.scrollTo({ top: y, behavior: 'smooth' });
-
-  window.setTimeout(function(){ highlightCard(card); }, 250);
-}
-
-function setQuizButtonState(state){
-  if(!quizBtn) return;
-  if(state === 'done'){
-    quizBtn.textContent = 'Results shown';
-    quizBtn.classList.remove('primary');
-    quizBtn.classList.add('ghost');
-    quizBtn.disabled = true;
-  } else {
-    quizBtn.textContent = 'Show results';
-    quizBtn.classList.remove('ghost');
-    quizBtn.classList.add('primary');
-    quizBtn.disabled = false;
-  }
-}
-
-function resetQuiz(){
-  var def = document.querySelector('input[name="route"][value="manual"]');
-  if(def) def.checked = true;
-
-  lastRecommendation = null;
-
-  if(quizResult){
-    quizResult.style.display = 'none';
-    quizResult.innerHTML = '';
-  }
-
-  clearRecommended();
-  setQuizButtonState('ready');
-}
-
-setQuizButtonState('ready');
-
-if(quizBtn){
-  quizBtn.addEventListener('click', function () {
-    var route = getRadioValue('route') || 'manual';
-    var rec = recommendProduct(route);
-    lastRecommendation = rec;
-
-    if(!quizResult) return;
-    quizResult.style.display = 'block';
-
-    // Build CTA block based on recommendation
-    var primaryCtaText = rec === 'bot' ? 'View Trading Bot' : 'View Indicator';
-
-    var innerNudge = '';
-    if(rec === 'indicator'){
-      innerNudge =
-        '<div style="margin-top:10px; color: rgba(232,236,255,.72); font-size:14px; line-height:1.55;">' +
-          'Optional: Many traders pair the indicator with <strong>Inner Circle</strong> for accountability and execution review.' +
-        '</div>' +
-        '<div class="row" style="margin-top:10px;">' +
-          '<button class="btn ghost" type="button" id="seeInnerBtn">Explore Inner Circle</button>' +
-        '</div>';
-    }
-
-    quizResult.innerHTML =
-      '<strong>Recommendation:</strong> ' + prettyName(rec) + '<br/>' +
-      'Based on your answer, this is the best place to start.' +
-      '<div class="row">' +
-        '<button class="btn primary" type="button" id="seePricingBtn">' + primaryCtaText + '</button>' +
-        '<button class="btn ghost" type="button" id="resetQuizBtn">Reset</button>' +
-        '<a class="btn ghost" href="#faq">Read FAQs</a>' +
-      '</div>' +
-      innerNudge;
-
-    setQuizButtonState('done');
-
-    // Primary CTA
-    var seeBtn = $('seePricingBtn');
-    if(seeBtn){
-      seeBtn.addEventListener('click', function () {
-        scrollToPricingAndHighlight(lastRecommendation);
-      });
-    }
-
-    // Inner Circle (indicator only)
-    var seeInnerBtn = $('seeInnerBtn');
-    if(seeInnerBtn){
-      seeInnerBtn.addEventListener('click', function () {
-        scrollToPricingAndHighlight('inner');
-      });
-    }
-
-    // Reset
-    var resetBtn = $('resetQuizBtn');
-    if(resetBtn){
-      resetBtn.addEventListener('click', function () {
-        resetQuiz();
-        var quizSection = $('quiz');
-        if(quizSection){
-          quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if(hamburger){
+          hamburger.addEventListener('click', function () {
+            var open = !(mobileMenu && mobileMenu.classList.contains('show'));
+            setMenu(open);
+          });
         }
-      });
-    }
-  });
-}
 
-      // ==========================================================
-      // Pricing checkout routing (Stripe Payment Links)
-      // ==========================================================
-      var pricingSection = $('pricing');
-      if(pricingSection){
-        pricingSection.addEventListener('click', function(e){
-          // capture clicks on any .btn inside #pricing .actions
-          var btn = e.target && e.target.closest ? e.target.closest('#pricing .actions .btn') : null;
-          if(!btn) return;
+        if(mobileMenu){
+          var links = mobileMenu.querySelectorAll('a');
+          for (var i=0; i<links.length; i++){
+            links[i].addEventListener('click', function(){ setMenu(false); });
+          }
+        }
 
-          var card = btn.closest ? btn.closest('.price') : null;
-          var url = card ? card.getAttribute('data-checkout') : '';
+        // Footer year (guarded)
+        var yearEl = $('year');
+        if(yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-          if(!url){
-            alert('Checkout link not set yet for this product.');
-            return;
+        // Quiz (repurposed: Manual vs Automated, CTA-aligned)
+        var quizBtn = $('quizBtn');
+        var quizResult = $('quizResult');
+        var lastRecommendation = null;
+
+        function getRadioValue(name){
+          var el = document.querySelector('input[name="' + name + '"]:checked');
+          return el ? el.value : null;
+        }
+
+        function recommendProduct(route){
+          if(route === 'auto') return 'bot';
+          return 'indicator';
+        }
+
+        function cardFor(key){
+          // pricing order: 0=inner circle, 1=indicator, 2=bot
+          var map = { inner: 0, indicator: 1, bot: 2 };
+          var cards = document.querySelectorAll('#pricing .price');
+          return cards && cards.length ? (cards[map[key]] || null) : null;
+        }
+
+        function prettyName(key){
+          var names = {
+            indicator: 'Indicator',
+            bot: 'Automated Trading Bot',
+            inner: 'Inner Circle'
+          };
+          return names[key] || key;
+        }
+
+        function clearRecommended(){
+          var recs = document.querySelectorAll('#pricing .price.recommended');
+          for (var i = 0; i < recs.length; i++){
+            recs[i].classList.remove('recommended');
+          }
+        }
+
+        function highlightCard(card){
+          if(!card) return;
+          clearRecommended();
+          card.classList.add('recommended');
+        }
+
+        function scrollToPricingAndHighlight(key){
+          var card = cardFor(key);
+          if(!card) return;
+
+          var yOffset = -90; // sticky header offset
+          var y = card.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+
+          window.setTimeout(function(){ highlightCard(card); }, 250);
+        }
+
+        function setQuizButtonState(state){
+          if(!quizBtn) return;
+          if(state === 'done'){
+            quizBtn.textContent = 'Results shown';
+            quizBtn.classList.remove('primary');
+            quizBtn.classList.add('ghost');
+            quizBtn.disabled = true;
+          } else {
+            quizBtn.textContent = 'Show results';
+            quizBtn.classList.remove('ghost');
+            quizBtn.classList.add('primary');
+            quizBtn.disabled = false;
+          }
+        }
+
+        function resetQuiz(){
+          var def = document.querySelector('input[name="route"][value="manual"]');
+          if(def) def.checked = true;
+
+          lastRecommendation = null;
+
+          if(quizResult){
+            quizResult.style.display = 'none';
+            quizResult.innerHTML = '';
           }
 
-          // route to Stripe payment link (same tab)
-          window.location.href = url;
-          // If you prefer new tab instead, use:
-          // window.open(url, '_blank', 'noopener');
-        });
-      }
-
-      // Email capture modal
-      var EMAIL_MODAL_KEY = 'piphero_email_modal_dismissed_v1';
-      var DISCOUNT_CODE = 'PIPHERO10';
-
-      function openEmailModal(){
-        var modal = $('emailModal');
-        if(!modal) return;
-
-        resetEmailModalUI();
-        modal.classList.add('show');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('modal-open');
-
-        window.setTimeout(function () {
-          var inp = $('emailInput');
-          if(inp) inp.focus();
-        }, 50);
-      }
-
-      function closeEmailModal(persist){
-        if(typeof persist === 'undefined') persist = true;
-        var modal = $('emailModal');
-        if(!modal) return;
-
-        modal.classList.remove('show');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('modal-open');
-
-        if(persist){
-          try { localStorage.setItem(EMAIL_MODAL_KEY, '1'); } catch(e){}
+          clearRecommended();
+          setQuizButtonState('ready');
         }
-      }
 
-      function shouldShowEmailModal(){
-        try { return !localStorage.getItem(EMAIL_MODAL_KEY); }
-        catch(e){ return true; }
-      }
+        setQuizButtonState('ready');
 
-      function showInlineError(msg){
-        var el = $('emailInlineError');
-        if(!el) return;
-        el.style.display = 'block';
-        el.textContent = msg;
-      }
+        if(quizBtn){
+          quizBtn.addEventListener('click', function () {
+            var route = getRadioValue('route') || 'manual';
+            var rec = recommendProduct(route);
+            lastRecommendation = rec;
 
-      function clearInlineError(){
-        var el = $('emailInlineError');
-        if(!el) return;
-        el.style.display = 'none';
-        el.textContent = '';
-      }
+            if(!quizResult) return;
+            quizResult.style.display = 'block';
 
-      function showSuccessState(){
-        clearInlineError();
+            var primaryCtaText = rec === 'bot' ? 'View Trading Bot' : 'View Indicator';
 
-        var codeEl = $('discountCode');
-        if(codeEl) codeEl.textContent = DISCOUNT_CODE;
+            var innerNudge = '';
+            if(rec === 'indicator'){
+              innerNudge =
+                '<div style="margin-top:10px; color: rgba(232,236,255,.72); font-size:14px; line-height:1.55;">' +
+                  'Optional: Many traders pair the indicator with <strong>Inner Circle</strong> for accountability and execution review.' +
+                '</div>' +
+                '<div class="row" style="margin-top:10px;">' +
+                  '<button class="btn ghost" type="button" id="seeInnerBtn">Explore Inner Circle</button>' +
+                '</div>';
+            }
 
-        var formWrap = $('emailFormWrap');
-        if(formWrap) formWrap.style.display = 'none';
+            quizResult.innerHTML =
+              '<strong>Recommendation:</strong> ' + prettyName(rec) + '<br/>' +
+              'Based on your answer, this is the best place to start.' +
+              '<div class="row">' +
+                '<button class="btn primary" type="button" id="seePricingBtn">' + primaryCtaText + '</button>' +
+                '<button class="btn ghost" type="button" id="resetQuizBtn">Reset</button>' +
+                '<a class="btn ghost" href="#faq">Read FAQs</a>' +
+              '</div>' +
+              innerNudge;
 
-        var successWrap = $('emailSuccessWrap');
-        if(successWrap) successWrap.style.display = 'block';
+            setQuizButtonState('done');
 
-        try { localStorage.setItem(EMAIL_MODAL_KEY, '1'); } catch(e){}
-      }
+            var seeBtn = $('seePricingBtn');
+            if(seeBtn){
+              seeBtn.addEventListener('click', function () {
+                scrollToPricingAndHighlight(lastRecommendation);
+              });
+            }
 
-      function resetEmailModalUI(){
-        clearInlineError();
+            var seeInnerBtn = $('seeInnerBtn');
+            if(seeInnerBtn){
+              seeInnerBtn.addEventListener('click', function () {
+                scrollToPricingAndHighlight('inner');
+              });
+            }
 
-        var input = $('emailInput');
-        if(input) input.value = '';
-
-        var formWrap = $('emailFormWrap');
-        if(formWrap) formWrap.style.display = 'block';
-
-        var successWrap = $('emailSuccessWrap');
-        if(successWrap) successWrap.style.display = 'none';
-
-        var copy = $('copyStatus');
-        if(copy){
-          copy.style.display = 'none';
-          copy.textContent = '';
+            var resetBtn = $('resetQuizBtn');
+            if(resetBtn){
+              resetBtn.addEventListener('click', function () {
+                resetQuiz();
+                var quizSection = $('quiz');
+                if(quizSection){
+                  quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              });
+            }
+          });
         }
-      }
 
-      function setCopyStatus(msg){
-        var el = $('copyStatus');
-        if(!el) return;
+        // ==========================================================
+        // Pricing checkout routing (Stripe Payment Links)
+        // ==========================================================
+        var pricingSection = $('pricing');
+        if(pricingSection){
+          pricingSection.addEventListener('click', function(e){
+            var btn = e.target && e.target.closest ? e.target.closest('#pricing .actions .btn') : null;
+            if(!btn) return;
 
-        el.style.display = 'block';
-        el.textContent = msg;
+            var card = btn.closest ? btn.closest('.price') : null;
+            var url = card ? card.getAttribute('data-checkout') : '';
 
-        window.clearTimeout(window.__copyTimer);
-        window.__copyTimer = window.setTimeout(function(){
+            if(!url){
+              alert('Checkout link not set yet for this product.');
+              return;
+            }
+
+            window.location.href = url;
+          });
+        }
+
+        // Email capture modal
+        var EMAIL_MODAL_KEY = 'piphero_email_modal_dismissed_v1';
+        var DISCOUNT_CODE = 'PIPHERO10';
+
+        function openEmailModal(){
+          var modal = $('emailModal');
+          if(!modal) return;
+
+          resetEmailModalUI();
+          modal.classList.add('show');
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.classList.add('modal-open');
+
+          window.setTimeout(function () {
+            var inp = $('emailInput');
+            if(inp) inp.focus();
+          }, 50);
+        }
+
+        function closeEmailModal(persist){
+          if(typeof persist === 'undefined') persist = true;
+          var modal = $('emailModal');
+          if(!modal) return;
+
+          modal.classList.remove('show');
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.classList.remove('modal-open');
+
+          if(persist){
+            try { localStorage.setItem(EMAIL_MODAL_KEY, '1'); } catch(e){}
+          }
+        }
+
+        function shouldShowEmailModal(){
+          try { return !localStorage.getItem(EMAIL_MODAL_KEY); }
+          catch(e){ return true; }
+        }
+
+        function showInlineError(msg){
+          var el = $('emailInlineError');
+          if(!el) return;
+          el.style.display = 'block';
+          el.textContent = msg;
+        }
+
+        function clearInlineError(){
+          var el = $('emailInlineError');
+          if(!el) return;
           el.style.display = 'none';
           el.textContent = '';
-        }, 1800);
-      }
-
-      var modal = $('emailModal');
-      if(modal){
-        var successCta = $('emailSuccessCta');
-        if(successCta){
-          successCta.addEventListener('click', function(e){
-            e.preventDefault();
-            closeEmailModal(true);
-            window.setTimeout(function(){ location.hash = 'pricing'; }, 50);
-          });
         }
 
-        var copyBtn = $('copyDiscountBtn');
-        if(copyBtn){
-          copyBtn.addEventListener('click', function () {
-            if(navigator.clipboard && navigator.clipboard.writeText){
-              navigator.clipboard.writeText(DISCOUNT_CODE).then(function(){
-                setCopyStatus('Copied to clipboard.');
-              }).catch(function(){
-                var tmp = document.createElement('textarea');
-                tmp.value = DISCOUNT_CODE;
-                tmp.style.position = 'fixed';
-                tmp.style.left = '-9999px';
-                document.body.appendChild(tmp);
-                tmp.select();
+        function showSuccessState(){
+          clearInlineError();
+
+          var codeEl = $('discountCode');
+          if(codeEl) codeEl.textContent = DISCOUNT_CODE;
+
+          var formWrap = $('emailFormWrap');
+          if(formWrap) formWrap.style.display = 'none';
+
+          var successWrap = $('emailSuccessWrap');
+          if(successWrap) successWrap.style.display = 'block';
+
+          try { localStorage.setItem(EMAIL_MODAL_KEY, '1'); } catch(e){}
+        }
+
+        function resetEmailModalUI(){
+          clearInlineError();
+
+          var input = $('emailInput');
+          if(input) input.value = '';
+
+          var formWrap = $('emailFormWrap');
+          if(formWrap) formWrap.style.display = 'block';
+
+          var successWrap = $('emailSuccessWrap');
+          if(successWrap) successWrap.style.display = 'none';
+
+          var copy = $('copyStatus');
+          if(copy){
+            copy.style.display = 'none';
+            copy.textContent = '';
+          }
+        }
+
+        function setCopyStatus(msg){
+          var el = $('copyStatus');
+          if(!el) return;
+
+          el.style.display = 'block';
+          el.textContent = msg;
+
+          window.clearTimeout(window.__copyTimer);
+          window.__copyTimer = window.setTimeout(function(){
+            el.style.display = 'none';
+            el.textContent = '';
+          }, 1800);
+        }
+
+        var modal = $('emailModal');
+        if(modal){
+          var successCta = $('emailSuccessCta');
+          if(successCta){
+            successCta.addEventListener('click', function(e){
+              e.preventDefault();
+              closeEmailModal(true);
+              window.setTimeout(function(){ location.hash = 'pricing'; }, 50);
+            });
+          }
+
+          var copyBtn = $('copyDiscountBtn');
+          if(copyBtn){
+            copyBtn.addEventListener('click', function () {
+              if(navigator.clipboard && navigator.clipboard.writeText){
+                navigator.clipboard.writeText(DISCOUNT_CODE).then(function(){
+                  setCopyStatus('Copied to clipboard.');
+                }).catch(function(){
+                  var tmp = document.createElement('textarea');
+                  tmp.value = DISCOUNT_CODE;
+                  tmp.style.position = 'fixed';
+                  tmp.style.left = '-9999px';
+                  document.body.appendChild(tmp);
+                  tmp.select();
+                  document.execCommand('copy');
+                  document.body.removeChild(tmp);
+                  setCopyStatus('Copied to clipboard.');
+                });
+              } else {
+                var tmp2 = document.createElement('textarea');
+                tmp2.value = DISCOUNT_CODE;
+                tmp2.style.position = 'fixed';
+                tmp2.style.left = '-9999px';
+                document.body.appendChild(tmp2);
+                tmp2.select();
                 document.execCommand('copy');
-                document.body.removeChild(tmp);
+                document.body.removeChild(tmp2);
                 setCopyStatus('Copied to clipboard.');
-              });
-            } else {
-              var tmp2 = document.createElement('textarea');
-              tmp2.value = DISCOUNT_CODE;
-              tmp2.style.position = 'fixed';
-              tmp2.style.left = '-9999px';
-              document.body.appendChild(tmp2);
-              tmp2.select();
-              document.execCommand('copy');
-              document.body.removeChild(tmp2);
-              setCopyStatus('Copied to clipboard.');
-            }
+              }
+            });
+          }
+
+          if(shouldShowEmailModal()){
+            window.setTimeout(openEmailModal, 7000);
+          }
+
+          var closeX = $('emailModalClose');
+          if(closeX) closeX.addEventListener('click', function(){ closeEmailModal(true); });
+
+          var noThanks = $('emailNoThanksBtn');
+          if(noThanks) noThanks.addEventListener('click', function(){ closeEmailModal(true); });
+
+          var successClose = $('emailSuccessCloseBtn');
+          if(successClose) successClose.addEventListener('click', function(){ closeEmailModal(true); });
+
+          modal.addEventListener('click', function(e){
+            if(e.target === modal) closeEmailModal(true);
           });
-        }
 
-        if(shouldShowEmailModal()){
-          window.setTimeout(openEmailModal, 7000);
-        }
-
-        var closeX = $('emailModalClose');
-        if(closeX) closeX.addEventListener('click', function(){ closeEmailModal(true); });
-
-        var noThanks = $('emailNoThanksBtn');
-        if(noThanks) noThanks.addEventListener('click', function(){ closeEmailModal(true); });
-
-        var successClose = $('emailSuccessCloseBtn');
-        if(successClose) successClose.addEventListener('click', function(){ closeEmailModal(true); });
-
-        modal.addEventListener('click', function(e){
-          if(e.target === modal) closeEmailModal(true);
-        });
-
-        document.addEventListener('keydown', function(e){
-          if(e.key === 'Escape' && modal.classList.contains('show')) closeEmailModal(true);
-        });
-
-        var submitBtn = $('emailSubmitBtn');
-        if(submitBtn){
-          submitBtn.addEventListener('click', function(){
-            var emailInput = $('emailInput');
-            var email = (emailInput && emailInput.value ? emailInput.value : '').trim();
-
-            if(!email){
-              showInlineError('Please enter your email address.');
-              if(emailInput) emailInput.focus();
-              return;
-            }
-
-            var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-            if(!ok){
-              showInlineError('Please enter a valid email address.');
-              if(emailInput) emailInput.focus();
-              return;
-            }
-
-           // Require GDPR consent (Mailchimp GDPR audiences)
-var consent = document.getElementById('emailConsent');
-if(!consent || !consent.checked){
-  showInlineError('Please tick the box to consent to email updates.');
-  return;
-}
-
-// Submit to Mailchimp via hidden form + iframe
-var mcForm = document.getElementById('mcHiddenForm');
-var mcEmail = document.getElementById('mcHiddenEmail');
-
-if(!mcForm || !mcEmail){
-  showInlineError('Email system unavailable — please try again shortly.');
-  return;
-}
-
-mcEmail.value = email;
-
-try {
-  mcForm.submit();
-} catch (e) {
-  // If submission fails, we still show success UI
-}
-
-showSuccessState();
+          document.addEventListener('keydown', function(e){
+            if(e.key === 'Escape' && modal.classList.contains('show')) closeEmailModal(true);
           });
+
+          var submitBtn = $('emailSubmitBtn');
+          if(submitBtn){
+            submitBtn.addEventListener('click', function(){
+              var emailInput = $('emailInput');
+              var email = (emailInput && emailInput.value ? emailInput.value : '').trim();
+
+              if(!email){
+                showInlineError('Please enter your email address.');
+                if(emailInput) emailInput.focus();
+                return;
+              }
+
+              var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+              if(!ok){
+                showInlineError('Please enter a valid email address.');
+                if(emailInput) emailInput.focus();
+                return;
+              }
+
+              var consent = document.getElementById('emailConsent');
+              if(!consent || !consent.checked){
+                showInlineError('Please tick the box to consent to email updates.');
+                return;
+              }
+
+              var mcForm = document.getElementById('mcHiddenForm');
+              var mcEmail = document.getElementById('mcHiddenEmail');
+
+              if(!mcForm || !mcEmail){
+                showInlineError('Email system unavailable — please try again shortly.');
+                return;
+              }
+
+              mcEmail.value = email;
+
+              try { mcForm.submit(); } catch (e) {}
+
+              showSuccessState();
+            });
+          }
         }
-      }
-    });
-  })();
-</script>
+      });
+    })();
+  </script>
 </body>
 </html>
