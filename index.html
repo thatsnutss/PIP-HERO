@@ -928,6 +928,43 @@
     #emailModal #emailFormWrap > div{
       margin: 0;
     }
+
+/* =========================================
+   Modal alignment fixes (desktop/web)
+   ========================================= */
+
+#emailModal .modal{
+  text-align: center; /* centers heading + intro copy */
+}
+
+/* Close button: true center for the “×” */
+#emailModal .modal-close{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+}
+
+/* Keep form content readable, but centered */
+#emailModal #emailFormWrap{
+  align-items: center;
+}
+
+/* confirming input + consent still full width */
+#emailModal #emailInput{
+  text-align: left;
+}
+
+#emailModal .email-consent{
+  text-align: left;
+}
+
+/* Center the primary/secondary buttons row */
+#emailModal #emailFormWrap > div{
+  justify-content: center; /* centers the buttons */
+}
+
   </style>
 </head>
 
