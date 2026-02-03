@@ -26,12 +26,10 @@
       --max: 1140px;
       --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
 
-      /* ==========================================================
-         TIGHTENED GLOBAL SECTION SPACING (desktop/tablet)
-         ========================================================== */
-      --section-y: 56px;          /* was 70px */
-      --section-y-tight: 44px;    /* was 54px */
-      --section-headspace: 72px;  /* was 92px */
+      /* Section spacing (desktop/tablet) */
+      --section-y: 70px;          /* was 86px */
+      --section-y-tight: 54px;    /* was 64px */
+      --section-headspace: 92px;  /* was 120px */
     }
 
     *{box-sizing:border-box}
@@ -69,16 +67,13 @@
       padding-top: var(--section-headspace);
     }
 
-    /* ==========================================================
-       TIGHTENED: perceived gaps between consecutive sections
-       ========================================================== */
-
+    /* Reduce perceived gaps between consecutive sections */
     .section + .section{
-      padding-top: calc(var(--section-y) * 0.5); /* was 0.75 */
+      padding-top: calc(var(--section-y) * 0.75);
     }
 
     .section.tight + .section{
-      padding-top: calc(var(--section-y) * 0.5); /* was 0.75 */
+      padding-top: calc(var(--section-y) * 0.75);
     }
 
     /* ==========================================================
@@ -283,7 +278,7 @@
     /* Section headings */
     .heading{
       display:flex; align-items:flex-end; justify-content:space-between; gap:18px;
-      margin-bottom:16px; /* was 22px */
+      margin-bottom:22px;
     }
     .heading h2{
       margin:0;
@@ -655,10 +650,9 @@
          ========================================================== */
 
       :root{
-        /* TIGHTENED MOBILE SPACING */
-        --section-y: 46px;          /* was 52px */
-        --section-y-tight: 38px;    /* was 42px */
-        --section-headspace: 48px;  /* was 52px */
+        --section-y: 52px;
+        --section-y-tight: 42px;
+        --section-headspace: 52px;
       }
 
       .section{
@@ -675,11 +669,11 @@
 
       /* Reduce perceived gaps between consecutive sections (mobile) */
       .section + .section{
-        padding-top: calc(var(--section-y) * 0.65); /* was 0.80 */
+        padding-top: calc(var(--section-y) * 0.80);
       }
 
       .section.tight + .section{
-        padding-top: calc(var(--section-y) * 0.65); /* was 0.80 */
+        padding-top: calc(var(--section-y) * 0.80);
       }
 
       /* ==========================================================
@@ -689,22 +683,22 @@
 
       /* Tighten spacing after hero / risk notice */
       #features{
-        padding-top: 40px;   /* was 44px */
-        padding-bottom: 44px;/* was 48px */
+        padding-top: 44px;
+        padding-bottom: 48px;
       }
 
       /* Tighten spacing between major stacked sections */
       #pricing,
       #quiz,
       #faq{
-        padding-top: 44px;   /* was 48px */
-        padding-bottom: 44px;/* was 48px */
+        padding-top: 48px;
+        padding-bottom: 48px;
       }
 
       /* Legal section can breathe slightly more */
       #terms{
-        padding-top: 44px;   /* was 48px */
-        padding-bottom: 52px;/* was 56px */
+        padding-top: 48px;
+        padding-bottom: 56px;
       }
 
       /* ==========================================================
@@ -720,7 +714,7 @@
         font-size: 15px;
       }
 
-      /* Kicker (force single line on mobile) */
+      /* Kicker (previously forced single line on mobile) */
       .kicker{
         white-space: nowrap;
         font-size: 12.5px;
@@ -819,6 +813,42 @@
 
       footer .brand{
         justify-content: center;
+      }
+
+      /* ==========================================================
+         ✅ PATCH: Fix hero overflow on mobile
+         ========================================================== */
+
+      /* Prevent any accidental horizontal overflow */
+      html, body{ overflow-x:hidden; }
+
+      /* HERO: stop right-side clipping */
+      .hero, .hero *{ max-width: 100%; }
+
+      /* Kicker: allow wrapping on small screens */
+      .kicker{
+        white-space: normal;      /* override nowrap */
+        width: 100%;
+        max-width: 100%;
+      }
+      .kicker span{
+        min-width: 0;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+
+      /* Lead: remove forced line-break behaviour on mobile */
+      .lead br{ display:none; }
+
+      /* Risk notice: don't use fit-content on mobile */
+      .disclaimer{
+        width: 100%;
+        max-width: 100%;
+      }
+      .disclaimer-text{
+        min-width: 0;
+        overflow-wrap: anywhere;
+        word-break: break-word;
       }
     }
 
@@ -953,412 +983,400 @@
   </header>
 
   <main id="top">
-  <!-- HERO -->
-  <section class="section headspace">
-    <div class="container">
-      <div class="hero">
-        <div>
-          <div class="kicker">
-            <span class="pulse" aria-hidden="true"></span>
-            <span>Built for traders who prioritise rules, risk control, and discipline</span>
+    <!-- HERO -->
+    <section class="section headspace">
+      <div class="container">
+        <div class="hero">
+          <div>
+            <div class="kicker">
+              <span class="pulse" aria-hidden="true"></span>
+              <span>Built for traders who prioritise rules, risk control, and discipline</span>
+            </div>
+
+            <h1>
+              Rules-based tools for<br>
+              <span class="grad hero-line-2">disciplined Futures, FX & Crypto execution</span>.
+            </h1>
+
+            <p class="lead">
+              PIP HERO provides a rules-based framework for validating entries and managing execution — <br>
+              delivered through a chart indicator, optional automation, and a private accountability community.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn primary" href="#quiz">Find my fit</a>
+              <a class="btn" href="#pricing">View pricing</a>
+            </div>
+
+            <div class="disclaimer" role="note" aria-label="Risk disclosure">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 8v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <div class="disclaimer-text">
+                <strong>Risk notice:</strong>
+                Trading Futures, FX, Crypto, and CFDs involves significant risk and may not be suitable for all traders.<br>
+                PIP HERO provides tools and educational structure only and does not provide investment advice or guarantees.
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section" id="features">
+      <div class="container">
+        <div class="heading">
+          <div>
+            <h2>How it works</h2>
+            <p>
+              Built around explicit rules and repeatable execution.<br>
+              Structured frameworks designed to minimise discretion, not replace it.
+            </p>
+          </div>
+        </div>
+
+        <div class="features">
+          <!-- Card 1 -->
+          <div class="feature">
+            <div class="top">
+              <div class="icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 19V5m0 14h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M7 15l3-3 3 2 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <h3>Define context</h3>
+            </div>
+            <p>
+              Use trend, regime, and session filters to define when trading is permitted — before thinking about entries.
+            </p>
           </div>
 
-          <h1>
-            Rules-based tools for<br>
-            <span class="grad hero-line-2">disciplined Futures, FX & Crypto execution</span>.
-          </h1>
+          <!-- Card 2 -->
+          <div class="feature">
+            <div class="top">
+              <div class="icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z"
+                        stroke="currentColor" stroke-width="2"/>
+                </svg>
+              </div>
+              <h3>Validate entries</h3>
+            </div>
+            <p>
+              Apply the indicator to your chart to confirm when a trade entry is valid based on predefined conditions.
+            </p>
+          </div>
 
-          <p class="lead">
-            PIP HERO provides a rules-based framework for validating entries and managing execution — <br>
-            delivered through a chart indicator, optional automation, and a private accountability community.
+          <!-- Card 3 -->
+          <div class="feature">
+            <div class="top">
+              <div class="icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2"/>
+                  <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
+                        stroke="currentColor" stroke-width="2"/>
+                </svg>
+              </div>
+              <h3>Execute with discipline</h3>
+            </div>
+            <p>
+              Follow the same decision process each time — fewer “in the moment” calls, more consistency over time.
+            </p>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="feature">
+            <div class="top">
+              <div class="icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M21 12a9 9 0 1 1-3-6.7"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M21 3v6h-6"
+                        stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <h3>Review and improve</h3>
+            </div>
+            <p>
+              Because your criteria are rules-based, review becomes objective — making it easier to refine execution.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UPDATED ORDER: QUIZ BEFORE PRICING -->
+    <!-- RECOMMENDATION FUNNEL (Manual vs Automated) -->
+    <section class="section" id="quiz">
+      <div class="container">
+        <div class="quiz">
+          <h2>Find your best starting point</h2>
+          <p>
+            Answer one quick question and we’ll recommend the right product based on how you prefer to execute.
           </p>
 
-          <div class="hero-actions">
-            <a class="btn primary" href="#quiz">Find my fit</a>
-            <a class="btn" href="#pricing">View pricing</a>
-          </div>
+          <div class="quizgrid">
+            <div class="qcard" style="grid-column: 1 / -1;">
+              <div class="qtitle">How do you want to trade?</div>
 
-          <div class="disclaimer" role="note" aria-label="Risk disclosure">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z" stroke="currentColor" stroke-width="2"/>
-              <path d="M12 8v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            <div class="disclaimer-text">
-              <strong>Risk notice:</strong>
-              Trading Futures, FX, Crypto, and CFDs involves significant risk and may not be suitable for all traders.<br>
-              PIP HERO provides tools and educational structure only and does not provide investment advice or guarantees.
+              <label class="opt">
+                <input type="radio" name="route" value="manual" checked />
+                <span><strong>Manual (recommended):</strong> I want rules-based structure on the chart while I execute.</span>
+              </label>
+
+              <label class="opt">
+                <input type="radio" name="route" value="auto" />
+                <span><strong>Hands-off:</strong> I want an automated rules engine to execute without watching charts.</span>
+              </label>
+
+              <label class="opt">
+                <input type="radio" name="route" value="unsure" />
+                <span><strong>Not sure:</strong> I want the safest starting point.</span>
+              </label>
             </div>
           </div>
 
-        </div>
-      </div>
-    </div>
-  </section>
-
-<!-- HOW IT WORKS -->
-<section class="section" id="features">
-  <div class="container">
-    <div class="heading">
-      <div>
-        <h2>How it works</h2>
-        <p>
-          Built around explicit rules and repeatable execution.<br>
-          Structured frameworks designed to minimise discretion, not replace it.
-        </p>
-      </div>
-    </div>
-
-    <div class="features">
-
-      <!-- Card 1 -->
-      <div class="feature">
-        <div class="top">
-          <div class="icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M4 19V5m0 14h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M7 15l3-3 3 2 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+          <div class="quizactions">
+            <button class="btn primary" id="quizBtn" type="button">View recommendation</button>
+            <a class="btn ghost" href="#pricing">Skip — view all</a>
           </div>
-          <h3>Define context</h3>
-        </div>
-        <p>
-          Use trend, regime, and session filters to define when trading is permitted — before thinking about entries.
-        </p>
-      </div>
 
-      <!-- Card 2 -->
-      <div class="feature">
-        <div class="top">
-          <div class="icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z"
-                    stroke="currentColor" stroke-width="2"/>
-            </svg>
-          </div>
-          <h3>Validate entries</h3>
-        </div>
-        <p>
-          Apply the indicator to your chart to confirm when a trade entry is valid based on predefined conditions.
-        </p>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="feature">
-        <div class="top">
-          <div class="icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2"/>
-              <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"
-                    stroke="currentColor" stroke-width="2"/>
-            </svg>
-          </div>
-          <h3>Execute with discipline</h3>
-        </div>
-        <p>
-          Follow the same decision process each time — fewer “in the moment” calls, more consistency over time.
-        </p>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="feature">
-        <div class="top">
-          <div class="icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M21 12a9 9 0 1 1-3-6.7"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M21 3v6h-6"
-                    stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <h3>Review and improve</h3>
-        </div>
-        <p>
-          Because your criteria are rules-based, review becomes objective — making it easier to refine execution.
-        </p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- UPDATED ORDER: QUIZ BEFORE PRICING -->
-<!-- RECOMMENDATION FUNNEL (Manual vs Automated) -->
-<section class="section" id="quiz">
-  <div class="container">
-    <div class="quiz">
-      <h2>Find your best starting point</h2>
-      <p>
-        Answer one quick question and we’ll recommend the right product based on how you prefer to execute.
-      </p>
-
-      <div class="quizgrid">
-        <div class="qcard" style="grid-column: 1 / -1;">
-          <div class="qtitle">How do you want to trade?</div>
-
-          <label class="opt">
-            <input type="radio" name="route" value="manual" checked />
-            <span><strong>Manual (recommended):</strong> I want rules-based structure on the chart while I execute.</span>
-          </label>
-
-          <label class="opt">
-            <input type="radio" name="route" value="auto" />
-            <span><strong>Hands-off:</strong> I want an automated rules engine to execute without watching charts.</span>
-          </label>
-
-          <label class="opt">
-            <input type="radio" name="route" value="unsure" />
-            <span><strong>Not sure:</strong> I want the safest starting point.</span>
-          </label>
+          <div class="result" id="quizResult" aria-live="polite"></div>
         </div>
       </div>
-
-      <div class="quizactions">
-        <button class="btn primary" id="quizBtn" type="button">View recommendation</button>
-        <a class="btn ghost" href="#pricing">Skip — view all</a>
-      </div>
-
-      <div class="result" id="quizResult" aria-live="polite"></div>
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- PRICING -->
-<section class="section" id="pricing">
-  <div class="container">
-    <div class="heading">
-      <div>
-        <h2>Choose your toolkit</h2>
-        <p>
-          Pick the level of structure you need — from execution support on-chart,<br>
-          to accountability, to fully automated rules-based trading.
-        </p>
-      </div>
-    </div>
-
-    <div class="pricing">
-
-      <!-- Inner Circle -->
-      <div class="price" data-checkout="https://buy.stripe.com/7sYeVdawe99c9gQaU12B204">
-        <div class="phead">
-          <div class="chiprow"></div>
-          <div class="tier">Inner Circle</div>
-          <div class="desc">
-            Private community access with guidance and accountability — for disciplined traders.
-          </div>
-        </div>
-        <div class="val">
-          <div class="num">£49</div>
-          <div class="per">/ month</div>
-        </div>
-        <ul>
-          <li>Private community focused on execution and discipline</li>
-          <li>Direct 1-to-1 support to diagnose what’s not working</li>
-          <li>Ongoing accountability to stay consistent</li>
-        </ul>
-        <div class="actions">
-          <button class="btn primary" type="button"
-            data-product="Inner Circle" data-price="£49/month">
-            Subscribe
-          </button>
-        </div>
-      </div>
-
-      <!-- Indicator -->
-      <div class="price" data-checkout="https://buy.stripe.com/aFa6oHbAi1GK50Afah2B203">
-        <div class="phead">
-          <div class="chiprow"></div>
-          <div class="tier">Indicator</div>
-          <div class="desc">
-            Apply it to your chart to validate when a trade entry is permitted — based on rules, not discretion.
+    <section class="section" id="pricing">
+      <div class="container">
+        <div class="heading">
+          <div>
+            <h2>Choose your toolkit</h2>
+            <p>
+              Pick the level of structure you need — from execution support on-chart,<br>
+              to accountability, to fully automated rules-based trading.
+            </p>
           </div>
         </div>
 
-        <div class="val">
-          <div class="num">£99</div>
-          <div class="per">one-time</div>
-        </div>
+        <div class="pricing">
+          <!-- Inner Circle -->
+          <div class="price" data-checkout="https://buy.stripe.com/7sYeVdawe99c9gQaU12B204">
+            <div class="phead">
+              <div class="chiprow"></div>
+              <div class="tier">Inner Circle</div>
+              <div class="desc">
+                Private community access with guidance and accountability — for disciplined traders.
+              </div>
+            </div>
+            <div class="val">
+              <div class="num">£49</div>
+              <div class="per">/ month</div>
+            </div>
+            <ul>
+              <li>Private community focused on execution and discipline</li>
+              <li>Direct 1-to-1 support to diagnose what’s not working</li>
+              <li>Ongoing accountability to stay consistent</li>
+            </ul>
+            <div class="actions">
+              <button class="btn primary" type="button" data-product="Inner Circle" data-price="£49/month">
+                Subscribe
+              </button>
+            </div>
+          </div>
 
-        <ul>
-          <li>Rules-based entry validation for structured execution</li>
-          <li>Works for both scalping and swing approaches</li>
-          <li>Built for traders who prioritise discipline over opinions</li>
-        </ul>
+          <!-- Indicator -->
+          <div class="price" data-checkout="https://buy.stripe.com/aFa6oHbAi1GK50Afah2B203">
+            <div class="phead">
+              <div class="chiprow"></div>
+              <div class="tier">Indicator</div>
+              <div class="desc">
+                Apply it to your chart to validate when a trade entry is permitted — based on rules, not discretion.
+              </div>
+            </div>
 
-        <div class="actions">
-          <button class="btn primary" type="button"
-            data-product="PIP HERO Indicator" data-price="£99">
-            Purchase
-          </button>
-        </div>
-      </div>
+            <div class="val">
+              <div class="num">£99</div>
+              <div class="per">one-time</div>
+            </div>
 
-      <!-- Automated Swing Trading Bot -->
-      <div class="price" data-checkout="https://buy.stripe.com/cNi9AT0VE0CGfFed292B201">
-        <div class="phead">
-          <div class="chiprow"></div>
-          <div class="tier">Automated Bot</div>
-          <div class="desc">
-            A hands-off trading bot for those who want rules-based execution — without watching charts.
+            <ul>
+              <li>Rules-based entry validation for structured execution</li>
+              <li>Works for both scalping and swing approaches</li>
+              <li>Built for traders who prioritise discipline over opinions</li>
+            </ul>
+
+            <div class="actions">
+              <button class="btn primary" type="button" data-product="PIP HERO Indicator" data-price="£99">
+                Purchase
+              </button>
+            </div>
+          </div>
+
+          <!-- Automated Swing Trading Bot -->
+          <div class="price" data-checkout="https://buy.stripe.com/cNi9AT0VE0CGfFed292B201">
+            <div class="phead">
+              <div class="chiprow"></div>
+              <div class="tier">Automated Bot</div>
+              <div class="desc">
+                A hands-off trading bot for those who want rules-based execution — without watching charts.
+              </div>
+            </div>
+            <div class="val">
+              <div class="num">£499</div>
+              <div class="per">one-time</div>
+            </div>
+            <ul>
+              <li>Automated execution once configured</li>
+              <li>Can trade multiple instruments in parallel</li>
+              <li>Rules, risk limits, and sizing defined by you</li>
+            </ul>
+            <div class="actions">
+              <button class="btn primary" type="button" data-product="Automated Trading Bot" data-price="£499">
+                Purchase
+              </button>
+            </div>
           </div>
         </div>
-        <div class="val">
-          <div class="num">£499</div>
-          <div class="per">one-time</div>
-        </div>
-        <ul>
-          <li>Automated execution once configured</li>
-          <li>Can trade multiple instruments in parallel</li>
-          <li>Rules, risk limits, and sizing defined by you</li>
-        </ul>
-        <div class="actions">
-          <button class="btn primary" type="button"
-            data-product="Automated Trading Bot" data-price="£499">
-            Purchase
-          </button>
-        </div>
       </div>
-
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- FAQs -->
-<section class="section tight" id="faq">
-  <div class="container">
-    <div class="heading">
-      <div>
-        <h2>FAQs</h2>
-        <p>Clear answers to common questions before you get started.</p>
+    <section class="section tight" id="faq">
+      <div class="container">
+        <div class="heading">
+          <div>
+            <h2>FAQs</h2>
+            <p>Clear answers to common questions before you get started.</p>
+          </div>
+        </div>
+
+        <div class="faqgrid">
+          <details>
+            <summary>
+              Are these signals or trade alerts?
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <p>
+              No. PIP HERO does not provide signals, alerts, or trade calls.<br><br>
+              The indicator highlights when predefined entry conditions are valid, allowing you to decide whether to execute the trade.<br><br>
+              The automated bot executes trades automatically, but only according to a fixed ruleset that you configure in advance — without discretionary decision-making.
+            </p>
+          </details>
+
+          <details>
+            <summary>
+              Who are these tools designed for?
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <p>
+              These tools are built for traders who want structure, rules, and consistency in their execution.<br><br>
+              They are not designed for beginners looking for signals, shortcuts, or guaranteed outcomes, and are best suited to traders willing to follow defined rules and review performance objectively.
+            </p>
+          </details>
+
+          <details>
+            <summary>
+              What platforms are supported?
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <p>
+              The indicator and automated trading bot are delivered via <strong>TradingView</strong> and operate within TradingView’s supported brokers and instruments.<br><br>
+              Community-based products, such as the Inner Circle, are delivered via <strong>Discord</strong>.
+            </p>
+          </details>
+
+          <details>
+            <summary>
+              How do I receive access after purchase?
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <p>
+              After purchase, you’ll receive a confirmation email containing your <strong>PDF setup guide</strong>.<br><br>
+              The guide includes access instructions, links, and configuration steps for your product.<br><br>
+              If the email doesn’t arrive within <strong>10 minutes</strong>, please check your spam folder before contacting support.
+            </p>
+          </details>
+
+          <details>
+            <summary>
+              Do you guarantee results or profitability?
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <p>
+              No. Trading involves risk, and outcomes depend on execution, discipline, and market conditions.<br><br>
+              PIP HERO provides rules-based tools that define when trading conditions are valid, but does not provide investment advice, performance guarantees, or profit expectations.
+            </p>
+          </details>
+
+          <details>
+            <summary>
+              Does the indicator place trades automatically?
+              <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <p>
+              No. The indicator is analytical only and does not place trades.<br><br>
+              Trades are executed manually unless you are using the automated trading bot.
+            </p>
+          </details>
+        </div>
       </div>
-    </div>
-
-    <div class="faqgrid">
-
-      <details>
-        <summary>
-          Are these signals or trade alerts?
-          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </summary>
-        <p>
-          No. PIP HERO does not provide signals, alerts, or trade calls.<br><br>
-          The indicator highlights when predefined entry conditions are valid, allowing you to decide whether to execute the trade.<br><br>
-          The automated bot executes trades automatically, but only according to a fixed ruleset that you configure in advance — without discretionary decision-making.
-        </p>
-      </details>
-
-      <details>
-        <summary>
-          Who are these tools designed for?
-          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </summary>
-        <p>
-          These tools are built for traders who want structure, rules, and consistency in their execution.<br><br>
-          They are not designed for beginners looking for signals, shortcuts, or guaranteed outcomes, and are best suited to traders willing to follow defined rules and review performance objectively.
-        </p>
-      </details>
-
-      <details>
-        <summary>
-          What platforms are supported?
-          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </summary>
-        <p>
-          The indicator and automated trading bot are delivered via <strong>TradingView</strong> and operate within TradingView’s supported brokers and instruments.<br><br>
-          Community-based products, such as the Inner Circle, are delivered via <strong>Discord</strong>.
-        </p>
-      </details>
-
-      <details>
-        <summary>
-          How do I receive access after purchase?
-          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </summary>
-        <p>
-          After purchase, you’ll receive a confirmation email containing your <strong>PDF setup guide</strong>.<br><br>
-          The guide includes access instructions, links, and configuration steps for your product.<br><br>
-          If the email doesn’t arrive within <strong>10 minutes</strong>, please check your spam folder before contacting support.
-        </p>
-      </details>
-
-      <details>
-        <summary>
-          Do you guarantee results or profitability?
-          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </summary>
-        <p>
-          No. Trading involves risk, and outcomes depend on execution, discipline, and market conditions.<br><br>
-          PIP HERO provides rules-based tools that define when trading conditions are valid, but does not provide investment advice, performance guarantees, or profit expectations.
-        </p>
-      </details>
-
-      <details>
-        <summary>
-          Does the indicator place trades automatically?
-          <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </summary>
-        <p>
-          No. The indicator is analytical only and does not place trades.<br><br>
-          Trades are executed manually unless you are using the automated trading bot.
-        </p>
-      </details>
-
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- LEGAL -->
-<section class="section tight" id="terms">
-  <div class="container">
-    <div class="heading">
-      <div>
-        <h2>Legal</h2>
-        <p>Important information regarding usage, risk, and limitations.</p>
+    <section class="section tight" id="terms">
+      <div class="container">
+        <div class="heading">
+          <div>
+            <h2>Legal</h2>
+            <p>Important information regarding usage, risk, and limitations.</p>
+          </div>
+        </div>
+
+        <div class="features" style="margin-top:0;">
+          <!-- Terms -->
+          <div class="feature" style="grid-column: span 6; min-height:auto;">
+            <h3>Terms of Service</h3>
+            <ul>
+              <li>All PIP HERO products are provided for analytical and educational purposes only.</li>
+              <li>You are solely responsible for how the tools are used and for all trading decisions made.</li>
+              <li><strong>All sales are final.</strong> Due to the digital nature of the products, refunds are not offered.</li>
+              <li>Access and licensing are granted to the original purchaser only.</li>
+              <li>Products may not be shared, resold, or redistributed in any form.</li>
+            </ul>
+          </div>
+
+          <!-- Risk -->
+          <div class="feature" id="risk" style="grid-column: span 6; min-height:auto;">
+            <h3>Risk Disclosure</h3>
+            <ul>
+              <li>Trading futures, foreign exchange, cryptocurrencies, and CFDs involves substantial risk.</li>
+              <li>Losses may exceed initial capital, and trading may not be suitable for all individuals.</li>
+              <li>PIP HERO provides indicators and automated tools that define when trading conditions are valid.</li>
+              <li>We do not provide investment advice, trade signals, or performance guarantees, and you are responsible for all risk configuration and execution decisions.</li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
-
-    <div class="features" style="margin-top:0;">
-
-      <!-- Terms -->
-      <div class="feature" style="grid-column: span 6; min-height:auto;">
-        <h3>Terms of Service</h3>
-        <ul>
-          <li>All PIP HERO products are provided for analytical and educational purposes only.</li>
-          <li>You are solely responsible for how the tools are used and for all trading decisions made.</li>
-          <li><strong>All sales are final.</strong> Due to the digital nature of the products, refunds are not offered.</li>
-          <li>Access and licensing are granted to the original purchaser only.</li>
-          <li>Products may not be shared, resold, or redistributed in any form.</li>
-        </ul>
-      </div>
-
-      <!-- Risk -->
-      <div class="feature" id="risk" style="grid-column: span 6; min-height:auto;">
-        <h3>Risk Disclosure</h3>
-        <ul>
-          <li>Trading futures, foreign exchange, cryptocurrencies, and CFDs involves substantial risk.</li>
-          <li>Losses may exceed initial capital, and trading may not be suitable for all individuals.</li>
-          <li>PIP HERO provides indicators and automated tools that define when trading conditions are valid.</li>
-          <li>We do not provide investment advice, trade signals, or performance guarantees, and you are responsible for all risk configuration and execution decisions.</li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</section>
-
+    </section>
   </main>
 
   <footer>
