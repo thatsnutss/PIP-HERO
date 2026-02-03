@@ -1132,62 +1132,45 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
 </section>
 
 
-    <!-- QUIZ FUNNEL -->
-    <section class="section" id="quiz">
-      <div class="container">
-        <div class="quiz">
-          <h2>Take our quick quiz</h2>
-          <p>
-            Answer two quick questions and we’ll recommend the best starting point. You’ll be taken to the matching product.
-          </p>
+    <!-- REPURPOSED QUIZ FUNNEL (Manual vs Automated) -->
+<section class="section" id="quiz">
+  <div class="container">
+    <div class="quiz">
+      <h2>Find your best starting point</h2>
+      <p>
+        Answer one quick question and we’ll recommend the right product. You’ll be taken to the matching option.
+      </p>
 
-          <div class="quizgrid">
-            <div class="qcard">
-              <div class="qtitle">1) Your trading style</div>
-              <label class="opt">
-                <input type="radio" name="style" value="scalp" />
-                <span><strong>Scalping:</strong> fast decisions, tighter stops, short holds.</span>
-              </label>
-              <label class="opt">
-                <input type="radio" name="style" value="swing" />
-                <span><strong>Swing:</strong> fewer trades, clearer structure, trend/pullback focus.</span>
-              </label>
-              <label class="opt">
-                <input type="radio" name="style" value="auto" />
-                <span><strong>Automation:</strong> want a rules engine to execute a swing plan.</span>
-              </label>
-              <label class="opt">
-                <input type="radio" name="style" value="unsure" checked />
-                <span><strong>Not sure:</strong> I want the safest starting point.</span>
-              </label>
-            </div>
+      <div class="quizgrid">
+        <div class="qcard" style="grid-column: 1 / -1;">
+          <div class="qtitle">1) How do you want to trade?</div>
 
-            <div class="qcard">
-              <div class="qtitle">2) Your preference</div>
-              <label class="opt">
-                <input type="radio" name="pref" value="speed" />
-                <span><strong>Speed:</strong> quicker setups and more frequent opportunities.</span>
-              </label>
-              <label class="opt">
-                <input type="radio" name="pref" value="clarity" checked />
-                <span><strong>Clarity:</strong> cleaner rules and fewer decisions.</span>
-              </label>
-              <label class="opt">
-                <input type="radio" name="pref" value="handsOff" />
-                <span><strong>Hands-off:</strong> prefer automation where possible.</span>
-              </label>
-            </div>
-          </div>
+          <label class="opt">
+            <input type="radio" name="route" value="manual" checked />
+            <span><strong>Manual (recommended):</strong> I want rules-based structure on the chart while I execute.</span>
+          </label>
 
-          <div class="quizactions">
-            <button class="btn primary" id="quizBtn" type="button">Show results</button>
-            <a class="btn ghost" href="#pricing">Skip — view all</a>
-          </div>
+          <label class="opt">
+            <input type="radio" name="route" value="auto" />
+            <span><strong>Hands-off:</strong> I want an automated rules engine to execute without watching charts.</span>
+          </label>
 
-          <div class="result" id="quizResult" aria-live="polite"></div>
+          <label class="opt">
+            <input type="radio" name="route" value="unsure" />
+            <span><strong>Not sure:</strong> I want the safest starting point.</span>
+          </label>
         </div>
       </div>
-    </section>
+
+      <div class="quizactions">
+        <button class="btn primary" id="quizBtn" type="button">Show results</button>
+        <a class="btn ghost" href="#pricing">Skip — view all</a>
+      </div>
+
+      <div class="result" id="quizResult" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
 
 <!-- FAQs after quiz -->
 <section class="section tight" id="faq">
@@ -1464,134 +1447,159 @@ color: var(--accent); /* FIX: ensures hamburger lines are coloured on all browse
       var yearEl = $('year');
       if(yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-      // Quiz
-      var quizBtn = $('quizBtn');
-      var quizResult = $('quizResult');
-      var lastRecommendation = null;
+      // Quiz (repurposed: Manual vs Automated, CTA-aligned)
+var quizBtn = $('quizBtn');
+var quizResult = $('quizResult');
+var lastRecommendation = null;
 
-      function getRadioValue(name){
-        var el = document.querySelector('input[name="' + name + '"]:checked');
-        return el ? el.value : null;
-      }
+function getRadioValue(name){
+  var el = document.querySelector('input[name="' + name + '"]:checked');
+  return el ? el.value : null;
+}
 
-      function recommendProduct(style, pref){
-        if(style === 'auto' || pref === 'handsOff') return 'bot';
-        if(style === 'scalp' || pref === 'speed') return 'scalp';
-        if(style === 'swing') return 'swing';
-        return 'swing';
-      }
+// Decide recommendation
+function recommendProduct(route){
+  if(route === 'auto') return 'bot';
+  // manual + unsure -> indicator (default)
+  return 'indicator';
+}
 
-      function cardFor(key){
-        // order of pricing cards: 0=scalp, 1=swing, 2=bot, 3=inner circle
-        var map = { scalp: 0, swing: 1, bot: 2, inner: 3 };
-        var cards = document.querySelectorAll('#pricing .price');
-        return cards && cards.length ? (cards[map[key]] || null) : null;
-      }
+function cardFor(key){
+  // pricing order: 0=inner circle, 1=indicator, 2=bot
+  var map = { inner: 0, indicator: 1, bot: 2 };
+  var cards = document.querySelectorAll('#pricing .price');
+  return cards && cards.length ? (cards[map[key]] || null) : null;
+}
 
-      function prettyName(key){
-        var names = {
-          scalp: 'Scalping Indicator',
-          swing: 'Swing Indicator',
-          bot: 'Automated Swing Trading Bot',
-          inner: 'Inner Circle'
-        };
-        return names[key] || key;
-      }
+function prettyName(key){
+  var names = {
+    indicator: 'Indicator',
+    bot: 'Automated Trading Bot',
+    inner: 'Inner Circle'
+  };
+  return names[key] || key;
+}
 
-      function clearRecommended(){
-        var recs = document.querySelectorAll('#pricing .price.recommended');
-        for (var i=0; i<recs.length; i++){
-          recs[i].classList.remove('recommended');
+function clearRecommended(){
+  var recs = document.querySelectorAll('#pricing .price.recommended');
+  for (var i = 0; i < recs.length; i++){
+    recs[i].classList.remove('recommended');
+  }
+}
+
+function highlightCard(card){
+  if(!card) return;
+  clearRecommended();
+  card.classList.add('recommended');
+}
+
+function scrollToPricingAndHighlight(key){
+  var card = cardFor(key);
+  if(!card) return;
+
+  var yOffset = -90; // sticky header offset
+  var y = card.getBoundingClientRect().top + window.pageYOffset + yOffset;
+  window.scrollTo({ top: y, behavior: 'smooth' });
+
+  window.setTimeout(function(){ highlightCard(card); }, 250);
+}
+
+function setQuizButtonState(state){
+  if(!quizBtn) return;
+  if(state === 'done'){
+    quizBtn.textContent = 'Results shown';
+    quizBtn.classList.remove('primary');
+    quizBtn.classList.add('ghost');
+    quizBtn.disabled = true;
+  } else {
+    quizBtn.textContent = 'Show results';
+    quizBtn.classList.remove('ghost');
+    quizBtn.classList.add('primary');
+    quizBtn.disabled = false;
+  }
+}
+
+function resetQuiz(){
+  var def = document.querySelector('input[name="route"][value="manual"]');
+  if(def) def.checked = true;
+
+  lastRecommendation = null;
+
+  if(quizResult){
+    quizResult.style.display = 'none';
+    quizResult.innerHTML = '';
+  }
+
+  clearRecommended();
+  setQuizButtonState('ready');
+}
+
+setQuizButtonState('ready');
+
+if(quizBtn){
+  quizBtn.addEventListener('click', function () {
+    var route = getRadioValue('route') || 'manual';
+    var rec = recommendProduct(route);
+    lastRecommendation = rec;
+
+    if(!quizResult) return;
+    quizResult.style.display = 'block';
+
+    // Build CTA block based on recommendation
+    var primaryCtaText = rec === 'bot' ? 'View Trading Bot' : 'View Indicator';
+
+    var innerNudge = '';
+    if(rec === 'indicator'){
+      innerNudge =
+        '<div style="margin-top:10px; color: rgba(232,236,255,.72); font-size:14px; line-height:1.55;">' +
+          'Optional: Many traders pair the indicator with <strong>Inner Circle</strong> for accountability and execution review.' +
+        '</div>' +
+        '<div class="row" style="margin-top:10px;">' +
+          '<button class="btn ghost" type="button" id="seeInnerBtn">Explore Inner Circle</button>' +
+        '</div>';
+    }
+
+    quizResult.innerHTML =
+      '<strong>Recommendation:</strong> ' + prettyName(rec) + '<br/>' +
+      'Based on your answer, this is the best place to start.' +
+      '<div class="row">' +
+        '<button class="btn primary" type="button" id="seePricingBtn">' + primaryCtaText + '</button>' +
+        '<button class="btn ghost" type="button" id="resetQuizBtn">Reset</button>' +
+        '<a class="btn ghost" href="#faq">Read FAQs</a>' +
+      '</div>' +
+      innerNudge;
+
+    setQuizButtonState('done');
+
+    // Primary CTA
+    var seeBtn = $('seePricingBtn');
+    if(seeBtn){
+      seeBtn.addEventListener('click', function () {
+        scrollToPricingAndHighlight(lastRecommendation);
+      });
+    }
+
+    // Inner Circle (indicator only)
+    var seeInnerBtn = $('seeInnerBtn');
+    if(seeInnerBtn){
+      seeInnerBtn.addEventListener('click', function () {
+        scrollToPricingAndHighlight('inner');
+      });
+    }
+
+    // Reset
+    var resetBtn = $('resetQuizBtn');
+    if(resetBtn){
+      resetBtn.addEventListener('click', function () {
+        resetQuiz();
+        var quizSection = $('quiz');
+        if(quizSection){
+          quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-      }
-
-      function highlightCard(card){
-        if(!card) return;
-        clearRecommended();
-        card.classList.add('recommended');
-      }
-
-      function setQuizButtonState(state){
-        if(!quizBtn) return;
-        if(state === 'done'){
-          quizBtn.textContent = 'Results shown';
-          quizBtn.classList.remove('primary');
-          quizBtn.classList.add('ghost');
-          quizBtn.disabled = true;
-        } else {
-          quizBtn.textContent = 'Show results';
-          quizBtn.classList.remove('ghost');
-          quizBtn.classList.add('primary');
-          quizBtn.disabled = false;
-        }
-      }
-
-      function resetQuiz(){
-        var styleEl = document.querySelector('input[name="style"][value="unsure"]');
-        if(styleEl) styleEl.checked = true;
-
-        var prefEl = document.querySelector('input[name="pref"][value="clarity"]');
-        if(prefEl) prefEl.checked = true;
-
-        lastRecommendation = null;
-
-        if(quizResult){
-          quizResult.style.display = 'none';
-          quizResult.innerHTML = '';
-        }
-
-        clearRecommended();
-        setQuizButtonState('ready');
-      }
-
-      setQuizButtonState('ready');
-
-      if(quizBtn){
-        quizBtn.addEventListener('click', function () {
-          var style = getRadioValue('style') || 'unsure';
-          var pref = getRadioValue('pref') || 'clarity';
-          var rec = recommendProduct(style, pref);
-          lastRecommendation = rec;
-
-          if(!quizResult) return;
-
-          quizResult.style.display = 'block';
-          quizResult.innerHTML =
-            '<strong>Recommendation:</strong> ' + prettyName(rec) + '<br/>' +
-            'Click below to view the recommended product.' +
-            '<div class="row">' +
-              '<button class="btn primary" type="button" id="seePricingBtn">Go to product</button>' +
-              '<button class="btn ghost" type="button" id="resetQuizBtn">Reset</button>' +
-              '<a class="btn ghost" href="#faq">Read FAQs</a>' +
-            '</div>';
-
-          setQuizButtonState('done');
-
-          var seeBtn = $('seePricingBtn');
-          if(seeBtn){
-            seeBtn.addEventListener('click', function () {
-              var pricingSection = $('pricing');
-              var card = cardFor(lastRecommendation);
-              if(!pricingSection || !card) return;
-
-              var yOffset = -20;
-              var y = pricingSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
-              window.scrollTo({ top: y, behavior: 'smooth' });
-
-              window.setTimeout(function(){ highlightCard(card); }, 300);
-            });
-          }
-
-          var resetBtn = $('resetQuizBtn');
-          if(resetBtn){
-            resetBtn.addEventListener('click', function () {
-              resetQuiz();
-              var quizSection = $('quiz');
-              if(quizSection) quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-          }
-        });
-      }
+      });
+    }
+  });
+}
 
       // ==========================================================
       // Pricing checkout routing (Stripe Payment Links)
