@@ -1061,11 +1061,14 @@
   z-index: auto;
 }
 
-/* Sticky stack for promo banner + header */
+/* Freeze promo + header permanently */
 .topbar{
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: auto;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 /* Header now sticks inside the topbar (no offset needed) */
@@ -1074,6 +1077,12 @@
   top: 0;
   z-index: auto;
 }
+
+/* Push page content below the fixed topbar */
+main{
+  padding-top: 112px; /* 40px banner + 72px header */
+}
+
 
   </style>
 </head>
