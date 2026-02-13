@@ -140,12 +140,37 @@
     /* Noise overlay removed for Chrome stability */
     .noise{ display:none !important; }
 
-    /* Header: SAFE default (no backdrop-filter) */
-    .header{
-      position:sticky; top:0; z-index:50;
-      background: rgba(7,10,18,.82);
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
+    /* ==========================================================
+   Sticky stack: promo banner + header freeze together
+   ========================================================== */
+
+.topbar{
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* must be high so it stays above page */
+}
+
+/* Promo banner */
+.promo-banner{
+  width: 100%;
+  text-align: center;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .2px;
+  color: #111;
+  background: linear-gradient(135deg, #FFD84D, #FFC72C);
+  border-bottom: 1px solid rgba(0,0,0,.15);
+}
+
+/* Header is NOT sticky anymore - it's inside the sticky wrapper */
+.header{
+  position: relative;
+  top: 0;
+  z-index: 1;
+  background: rgba(7,10,18,.82);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
 
     /* Modal overlay: SAFE default (no backdrop-filter) */
     .modal-overlay{
@@ -160,17 +185,19 @@
     }
 
     /* Re-enable blur where supported (keeps visuals on many browsers) */
-    @supports ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))){
-      .header{
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        background: linear-gradient(180deg, rgba(7,10,18,.78), rgba(7,10,18,.50));
-      }
-      .modal-overlay{
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-      }
-    }
+   @supports ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))){
+  .topbar{
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  .header{
+    background: linear-gradient(180deg, rgba(7,10,18,.78), rgba(7,10,18,.50));
+  }
+  .modal-overlay{
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
 
     /* Header / Nav */
     .nav{
@@ -840,7 +867,7 @@
       #pricing,
       #faq,
       #terms{
-        scroll-margin-top: 100px;
+        scroll-margin-top: 120px;
       }
 
       /* ==========================================================
