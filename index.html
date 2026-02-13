@@ -1031,11 +1031,21 @@
   background: linear-gradient(135deg, #FFD84D, #FFC72C);
   border-bottom:1px solid rgba(0,0,0,.15);
   position:relative;
-  z-index:1000;
+  z-index: auto;
 }
 
+/* Sticky stack for promo banner + header */
+.topbar{
+  position: sticky;
+  top: 0;
+  z-index: auto;
+}
+
+/* Header now sticks inside the topbar (no offset needed) */
 .header{
-  top:40px;
+  position: relative;
+  top: 0;
+  z-index: auto;
 }
 
   </style>
@@ -1043,9 +1053,10 @@
 
 <body>
 
-<div class="promo-banner">
-  🚀 Launch offer — Use code <strong>LAUNCH10</strong> for 10% off sitewide
-</div>
+<div class="topbar">
+  <div class="promo-banner">
+    🚀 Launch offer — Use code <strong>LAUNCH10</strong> for 10% off sitewide
+  </div>
 
   <!-- Noise layer intentionally removed (Option 2 stability) -->
   <!-- <div class="noise" aria-hidden="true"></div> -->
