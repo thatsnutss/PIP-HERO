@@ -626,6 +626,13 @@
       .price{grid-column: span 12}
     }
 
+#terms .features{
+  grid-template-columns: 1fr !important;
+}
+#terms .feature{
+  grid-column: 1 / -1 !important;
+}
+
     /* Modal overlay: SAFE default */
     .modal-overlay{
       position: fixed;
@@ -794,9 +801,22 @@
 
     /* Mobile header cleanup */
     @media (max-width: 520px){
-      .navcta a.btn.ghost{ display: none; }
-      .promo-banner{ font-size: 13px; }
-    }
+  :root{
+    --promo-h: auto; /* allow banner to grow naturally */
+    --topbar-h: calc(var(--nav-h) + var(--promo-h)); /* harmless even if promo-h is auto */
+  }
+
+  .promo-banner{
+    height: auto;                 /* override fixed height */
+    padding: 8px 12px;            /* more comfortable */
+    font-size: 12.5px;            /* slightly smaller */
+    line-height: 1.25;            /* tidy multi-line wrapping */
+    text-wrap: balance;           /* modern browsers: nicer line breaks */
+  }
+
+  /* optional: if you want it to never exceed 2 lines */
+  /* .promo-banner{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; } */
+}
 
     /* Extra-small safety net */
     @media (max-width: 380px){
@@ -1325,6 +1345,17 @@
 
       window.addEventListener('DOMContentLoaded', function () {
         // Mobile menu
+
+function setMainOffset(){
+  var tb = document.querySelector('.topbar');
+  var main = document.querySelector('main');
+  if(!tb || !main) return;
+  main.style.paddingTop = tb.offsetHeight + 'px';
+}
+
+setMainOffset();
+window.addEventListener('resize', setMainOffset);
+
         var hamburger = $('hamburger');
         var mobileMenu = $('mobileMenu');
 
