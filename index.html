@@ -80,10 +80,15 @@
       --max: 1140px;
       --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
 
+      /* Top stack sizing (keeps scrolling + anchors correct) */
+      --promo-h: 40px;
+      --nav-h: 72px;
+      --topbar-h: calc(var(--promo-h) + var(--nav-h));
+
       /* Section spacing (desktop/tablet) */
-      --section-y: 70px;          /* was 86px */
-      --section-y-tight: 54px;    /* was 64px */
-      --section-headspace: 92px;  /* was 120px */
+      --section-y: 70px;
+      --section-y-tight: 54px;
+      --section-headspace: 92px;
     }
 
     *{box-sizing:border-box}
@@ -107,106 +112,79 @@
     /* ==========================================================
        Global section spacing (desktop/tablet)
        ========================================================== */
+    .section{ padding: var(--section-y) 0; }
+    .section.tight{ padding: var(--section-y-tight) 0; }
+    .section.headspace{ padding-top: var(--section-headspace); }
 
-    .section{
-      padding: var(--section-y) 0;
-    }
-
-    .section.tight{
-      padding: var(--section-y-tight) 0;
-    }
-
-    /* Hero top spacing */
-    .section.headspace{
-      padding-top: var(--section-headspace);
-    }
-
-    /* Reduce perceived gaps between consecutive sections */
-    .section + .section{
-      padding-top: calc(var(--section-y) * 0.75);
-    }
-
-    .section.tight + .section{
-      padding-top: calc(var(--section-y) * 0.75);
-    }
-
-    /* ==========================================================
-       Stability (Option 2):
-       - Remove noise overlay (hidden)
-       - Disable backdrop-filter by default
-       - Re-enable blur only when supported via @supports
-       ========================================================== */
+    .section + .section{ padding-top: calc(var(--section-y) * 0.75); }
+    .section.tight + .section{ padding-top: calc(var(--section-y) * 0.75); }
 
     /* Noise overlay removed for Chrome stability */
     .noise{ display:none !important; }
 
     /* ==========================================================
-   Sticky stack: promo banner + header freeze together
-   ========================================================== */
-
-.topbar{
-  position: sticky;
-  top: 0;
-  z-index: 1000; /* must be high so it stays above page */
-}
-
-/* Promo banner */
-.promo-banner{
-  width: 100%;
-  text-align: center;
-  padding: 10px 14px;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: .2px;
-  color: #111;
-  background: linear-gradient(135deg, #FFD84D, #FFC72C);
-  border-bottom: 1px solid rgba(0,0,0,.15);
-}
-
-/* Header is NOT sticky anymore - it's inside the sticky wrapper */
-.header{
-  position: relative;
-  top: 0;
-  z-index: 1;
-  background: rgba(7,10,18,.82);
-  border-bottom: 1px solid rgba(255,255,255,.06);
-}
-
-    /* Modal overlay: SAFE default (no backdrop-filter) */
-    .modal-overlay{
+       ✅ Frozen promo + header (clean, single-source-of-truth)
+       IMPORTANT: topbar contains ONLY banner+header, NOT main.
+       ========================================================== */
+    .topbar{
       position: fixed;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 22px;
-      background: rgba(0,0,0,.62);
-      z-index: 9999;
+      top: 0; left: 0; right: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .promo-banner{
+      height: var(--promo-h);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 0 14px;
+      text-align:center;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .2px;
+      color: #111;
+      background: linear-gradient(135deg, #FFD84D, #FFC72C);
+      border-bottom: 1px solid rgba(0,0,0,.15);
+    }
+
+    .header{
+      background: rgba(7,10,18,.82);
+      border-bottom:1px solid rgba(255,255,255,.06);
     }
 
     /* Re-enable blur where supported (keeps visuals on many browsers) */
-   @supports ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))){
-  .topbar{
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-  }
-  .header{
-    background: linear-gradient(180deg, rgba(7,10,18,.78), rgba(7,10,18,.50));
-  }
-  .modal-overlay{
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
-}
+    @supports ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))){
+      .header{
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        background: linear-gradient(180deg, rgba(7,10,18,.78), rgba(7,10,18,.50));
+      }
+      .modal-overlay{
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+      }
+    }
+
+    /* Push content below the fixed stack */
+    main{
+      padding-top: var(--topbar-h);
+    }
+
+    /* Prevent fixed header from covering anchor targets */
+    #features, #quiz, #pricing, #faq, #terms{
+      scroll-margin-top: calc(var(--topbar-h) + 16px);
+    }
 
     /* Header / Nav */
     .nav{
       display:flex; align-items:center; justify-content:space-between;
-      height:72px;
+      height: var(--nav-h);
     }
 
     .brand{
-      display:flex; align-items:center; gap:12px; font-weight:650; letter-spacing:.2px;
+      display:flex; align-items:center; gap:12px;
+      font-weight:650; letter-spacing:.2px;
     }
 
     .navlinks{
@@ -421,7 +399,6 @@
       gap: 12px;
       margin-bottom: 8px;
     }
-
     .feature .top .icon{
       width: 36px;
       height: 36px;
@@ -429,7 +406,6 @@
       margin: 0;
       flex: 0 0 auto;
     }
-
     .feature .top h3{
       margin: 0;
       font-size: 15px;
@@ -521,21 +497,13 @@
       display: grid;
       gap: 10px;
     }
-
     .feature li{
       color: rgba(232,236,255,.82);
       font-size: 14px;
       line-height: 1.45;
     }
-
-    .feature li::marker{
-      color: rgba(124,92,255,.85);
-    }
-
-    /* Accent-coloured bullet markers */
-    .price li::marker{
-      color: rgba(124,92,255,.85);
-    }
+    .feature li::marker{ color: rgba(124,92,255,.85); }
+    .price li::marker{ color: rgba(124,92,255,.85); }
 
     /* Recommended pricing highlight */
     .price.recommended{
@@ -636,7 +604,7 @@
       justify-content:space-between;
       gap:18px;
       flex-wrap:wrap;
-      Align-items:center;
+      align-items:center;
     }
     .footlinks{display:flex; gap:14px; flex-wrap:wrap; font-size:13px}
     .footlinks a{color: rgba(232,236,255,.65)}
@@ -658,7 +626,17 @@
       .price{grid-column: span 12}
     }
 
-    /* Email modal continued */
+    /* Modal overlay: SAFE default */
+    .modal-overlay{
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      background: rgba(0,0,0,.62);
+      z-index: 9999;
+    }
     .modal-overlay.show{ display:flex; }
 
     .modal{
@@ -669,6 +647,7 @@
       box-shadow: 0 22px 90px rgba(0,0,0,.65);
       padding: 18px;
       position: relative;
+      text-align: center;
     }
     .modal-close{
       position:absolute;
@@ -682,7 +661,11 @@
       color: rgba(232,236,255,.85);
       cursor: pointer;
       font-size: 22px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
       line-height: 1;
+      padding: 0;
     }
     .modal h3{ margin: 6px 0 8px; font-size: 20px; }
     .modal p{ margin: 0 0 12px; color: rgba(232,236,255,.72); line-height: 1.5; font-size: 14px; }
@@ -695,14 +678,42 @@
       color: rgba(232,236,255,.92);
       outline: none;
       margin: 8px 0 12px;
+      text-align: left;
     }
 
-    /* Logo hard constraints */
-    .brand{
+    /* Email modal form layout (robust + browser-safe) */
+    #emailModal #emailFormWrap{
       display: flex;
+      flex-direction: column;
+      gap: 14px;
+      width: 100%;
       align-items: center;
-      gap: 10px;
     }
+    #emailModal #emailInput{ width: 100%; margin: 0; }
+    #emailModal .email-consent{
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      column-gap: 10px;
+      align-items: start;
+      width: 100%;
+      margin: 6px 0;
+      cursor: pointer;
+      text-align: left;
+    }
+    #emailModal .email-consent input[type="checkbox"]{ margin: 2px 0 0 0; }
+    #emailModal .email-consent span{
+      display: block;
+      min-width: 0;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      color: rgba(232,236,255,.72);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    #emailModal #emailFormWrap > div{ margin: 0; justify-content: center; }
+
+    /* Logo hard constraints */
+    .brand{ display:flex; align-items:center; gap:10px; }
     .brand .logo{
       width: 40px;
       height: 40px;
@@ -715,200 +726,54 @@
 
     /* GPU-safety fallback for fragile render paths */
     @media (prefers-reduced-motion: reduce) {
-      body {
-        background: linear-gradient(180deg, #070A12, #0B1020);
-      }
+      body { background: linear-gradient(180deg, #070A12, #0B1020); }
     }
 
-    /* ==========================================================
-       Mobile optimisation
-       ========================================================== */
-
+    /* Mobile optimisation */
     @media (max-width: 720px){
-
-      /* ==========================================================
-         Base section spacing (mobile)
-         ========================================================== */
-
       :root{
         --section-y: 52px;
         --section-y-tight: 42px;
         --section-headspace: 52px;
+
+        /* Banner can wrap slightly on smaller screens */
+        --promo-h: 44px;
+        --topbar-h: calc(var(--promo-h) + var(--nav-h));
       }
 
-      .section{
-        padding: var(--section-y) 0;
-      }
+      .section{ padding: var(--section-y) 0; }
+      .section.tight{ padding: var(--section-y-tight) 0; }
+      .section.headspace{ padding-top: var(--section-headspace); }
 
-      .section.tight{
-        padding: var(--section-y-tight) 0;
-      }
+      .section + .section{ padding-top: calc(var(--section-y) * 0.80); }
+      .section.tight + .section{ padding-top: calc(var(--section-y) * 0.80); }
 
-      .section.headspace{
-        padding-top: var(--section-headspace);
-      }
+      #features{ padding-top: 44px; padding-bottom: 48px; }
+      #pricing, #quiz, #faq{ padding-top: 48px; padding-bottom: 48px; }
+      #terms{ padding-top: 48px; padding-bottom: 56px; }
 
-      /* Reduce perceived gaps between consecutive sections (mobile) */
-      .section + .section{
-        padding-top: calc(var(--section-y) * 0.80);
-      }
+      h1{ font-size: clamp(30px, 8vw, 38px); line-height: 1.08; }
+      .lead{ font-size: 15px; }
 
-      .section.tight + .section{
-        padding-top: calc(var(--section-y) * 0.80);
-      }
+      .btn{ padding: 12px 16px; font-size: 15px; }
+      .hamburger{ width: 44px; height: 44px; }
 
-      /* ==========================================================
-         Mobile section spacing refinements
-         (visual rhythm cleanup)
-         ========================================================== */
+      .feature, .price{ padding: 20px; }
+      .pricing{ gap: 16px; }
 
-      /* Tighten spacing after hero / risk notice */
-      #features{
-        padding-top: 44px;
-        padding-bottom: 48px;
-      }
+      .price ul, .feature ul{ gap: 12px; }
 
-      /* Tighten spacing between major stacked sections */
-      #pricing,
-      #quiz,
-      #faq{
-        padding-top: 48px;
-        padding-bottom: 48px;
-      }
+      .opt{ padding: 14px 12px; }
+      .opt span{ font-size: 15px; }
 
-      /* Legal section can breathe slightly more */
-      #terms{
-        padding-top: 48px;
-        padding-bottom: 56px;
-      }
+      details{ padding: 16px; }
+      details p{ font-size: 15px; }
 
-      /* ==========================================================
-         Hero
-         ========================================================== */
-
-      h1{
-        font-size: clamp(30px, 8vw, 38px);
-        line-height: 1.08;
-      }
-
-      .lead{
-        font-size: 15px;
-      }
-
-      /* Kicker (previously forced single line on mobile) */
-      .kicker{
-        white-space: nowrap;
-        font-size: 12.5px;
-      }
-
-      /* ==========================================================
-         Buttons & header
-         ========================================================== */
-
-      .btn{
-        padding: 12px 16px;
-        font-size: 15px;
-      }
-
-      .hamburger{
-        width: 44px;
-        height: 44px;
-      }
-
-      /* ==========================================================
-         Cards
-         ========================================================== */
-
-      .feature,
-      .price{
-        padding: 20px;
-      }
-
-      .pricing{
-        gap: 16px;
-      }
-
-      /* Lists */
-      .price ul,
-      .feature ul{
-        gap: 12px;
-      }
-
-      /* ==========================================================
-         Quiz
-         ========================================================== */
-
-      .opt{
-        padding: 14px 12px;
-      }
-
-      .opt span{
-        font-size: 15px;
-      }
-
-      /* ==========================================================
-         FAQ
-         ========================================================== */
-
-      details{
-        padding: 16px;
-      }
-
-      details p{
-        font-size: 15px;
-      }
-
-      /* ==========================================================
-         Prevent sticky header from covering anchors (mobile only)
-         ========================================================== */
-
-      #features,
-      #quiz,
-      #pricing,
-      #faq,
-      #terms{
-        scroll-margin-top: 120px;
-      }
-
-      /* ==========================================================
-         Legal section layout (stack vertically on mobile)
-         ========================================================== */
-
-      #terms .features{
-        grid-template-columns: 1fr !important;
-      }
-
-      #terms .feature{
-        grid-column: span 12 !important;
-      }
-
-      /* ==========================================================
-         Footer
-         ========================================================== */
-
-      footer .footer{
-        flex-direction: column;
-        gap: 14px;
-        text-align: center;
-      }
-
-      footer .brand{
-        justify-content: center;
-      }
-
-      /* ==========================================================
-         ✅ PATCH: Fix hero overflow on mobile
-         ========================================================== */
-
-      /* Prevent any accidental horizontal overflow */
       html, body{ overflow-x:hidden; }
-
-      /* HERO: stop right-side clipping */
       .hero, .hero *{ max-width: 100%; }
 
-      /* Kicker: allow wrapping on small screens */
       .kicker{
-        white-space: normal;      /* override nowrap */
+        white-space: normal;
         width: 100%;
         max-width: 100%;
       }
@@ -918,14 +783,8 @@
         word-break: break-word;
       }
 
-      /* Lead: remove forced line-break behaviour on mobile */
       .lead br{ display:none; }
-
-      /* Risk notice: don't use fit-content on mobile */
-      .disclaimer{
-        width: 100%;
-        max-width: 100%;
-      }
+      .disclaimer{ width: 100%; max-width: 100%; }
       .disclaimer-text{
         min-width: 0;
         overflow-wrap: anywhere;
@@ -933,217 +792,77 @@
       }
     }
 
-    /* ==========================================================
-       Mobile header cleanup
-       ========================================================== */
-
+    /* Mobile header cleanup */
     @media (max-width: 520px){
-      /* Hide secondary CTA to prevent header crowding */
-      .navcta a.btn.ghost{
-        display: none;
-      }
+      .navcta a.btn.ghost{ display: none; }
+      .promo-banner{ font-size: 13px; }
     }
 
-    /* ==========================================================
-       Extra-small safety net
-       ========================================================== */
-
+    /* Extra-small safety net */
     @media (max-width: 380px){
-      /* Hide decorative pulse if space is extremely tight */
-      .kicker .pulse{
-        display: none;
-      }
+      .kicker .pulse{ display: none; }
     }
 
-    /* ==========================================================
-       Mobile menu button alignment
-       ========================================================== */
-
-    .mobile .btn{
-      justify-content: center;
-      text-align: center;
-    }
-
-    /* ==========================================================
-       FIX: Email modal form layout (robust + browser-safe)
-       ========================================================== */
-
-    #emailModal .modal{ text-align: left; }
-
-    #emailModal #emailFormWrap{
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      width: 100%;
-    }
-
-    #emailModal #emailInput{
-      width: 100%;
-      margin: 0;
-    }
-
-    #emailModal .email-consent{
-      display: grid;
-      grid-template-columns: 18px 1fr;
-      column-gap: 10px;
-      align-items: start;
-      width: 100%;
-      margin: 6px 0;
-      cursor: pointer;
-    }
-
-    #emailModal .email-consent input[type="checkbox"]{
-      margin: 2px 0 0 0;
-    }
-
-    #emailModal .email-consent span{
-      display: block;
-      min-width: 0;
-      white-space: normal;
-      overflow-wrap: anywhere;
-      color: rgba(232,236,255,.72);
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    #emailModal #emailFormWrap > div{
-      margin: 0;
-    }
-
-/* =========================================
-   Modal alignment fixes (desktop/web)
-   ========================================= */
-
-#emailModal .modal{
-  text-align: center; /* centers heading + intro copy */
-}
-
-/* Close button: true center for the “×” */
-#emailModal .modal-close{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  padding: 0;
-}
-
-/* Keep form content readable, but centered */
-#emailModal #emailFormWrap{
-  align-items: center;
-}
-
-/* confirming input + consent still full width */
-#emailModal #emailInput{
-  text-align: left;
-}
-
-#emailModal .email-consent{
-  text-align: left;
-}
-
-/* Center the primary/secondary buttons row */
-#emailModal #emailFormWrap > div{
-  justify-content: center; /* centers the buttons */
-}
-
-/* Launch promo banner */
-.promo-banner{
-  width:100%;
-  text-align:center;
-  padding:10px 14px;
-  font-size:14px;
-  font-weight:700;
-  letter-spacing:.2px;
-  color:#111;
-  background: linear-gradient(135deg, #FFD84D, #FFC72C);
-  border-bottom:1px solid rgba(0,0,0,.15);
-  position:relative;
-  z-index: auto;
-}
-
-/* Freeze promo + header permanently */
-.topbar{
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  z-index: 1000;
-}
-
-/* Header now sticks inside the topbar (no offset needed) */
-.header{
-  position: relative;
-  top: 0;
-  z-index: auto;
-}
-
-/* Push page content below the fixed topbar */
-main{
-  padding-top: 112px; /* 40px banner + 72px header */
-}
-
-
+    /* Mobile menu button alignment */
+    .mobile .btn{ justify-content: center; text-align: center; }
   </style>
 </head>
 
 <body>
 
-<div class="topbar">
-  <div class="promo-banner">
-    🚀 Launch offer — Use code <strong>LAUNCH10</strong> for 10% off sitewide
-  </div>
+  <!-- FIXED TOP STACK (banner + header only) -->
+  <div class="topbar">
+    <div class="promo-banner">
+      🚀 Launch offer — Use code <strong>LAUNCH10</strong> for 10% off sitewide
+    </div>
 
-  <!-- Noise layer intentionally removed (Option 2 stability) -->
-  <!-- <div class="noise" aria-hidden="true"></div> -->
+    <header class="header">
+      <div class="container">
+        <div class="nav">
+          <a class="brand" href="#top" aria-label="PIP HERO home">
+            <img src="assets/logo.png" alt="PIP HERO logo" class="logo" />
+            <span>PIP HERO</span>
+          </a>
 
-  <header class="header">
-    <div class="container">
-      <div class="nav">
-        <a class="brand" href="#top" aria-label="PIP HERO home">
-          <img src="assets/logo.png" alt="PIP HERO logo" class="logo" />
-          <span>PIP HERO</span>
-        </a>
+          <nav class="navlinks" aria-label="Primary navigation">
+            <a href="#features">How it works</a>
+            <a href="#quiz">Quiz</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#faq">FAQs</a>
+            <a href="#terms">Legal</a>
+          </nav>
 
-        <!-- UPDATED: Quiz before Pricing -->
-        <nav class="navlinks" aria-label="Primary navigation">
-          <a href="#features">How it works</a>
-          <a href="#quiz">Quiz</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#faq">FAQs</a>
-          <a href="#terms">Legal</a>
-        </nav>
+          <div class="navcta">
+            <a class="btn ghost" href="#pricing">View pricing</a>
+            <a class="btn primary" href="#quiz">Get started</a>
 
-        <div class="navcta">
-          <a class="btn ghost" href="#pricing">View pricing</a>
-          <a class="btn primary" href="#quiz">Get started</a>
-
-          <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </button>
+            <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div class="mobile" id="mobileMenu">
-        <div class="panel">
-          <a href="#features">How it works</a>
-          <a href="#quiz">Get started</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#faq">FAQs</a>
-          <a href="#terms">Legal</a>
+        <div class="mobile" id="mobileMenu">
+          <div class="panel">
+            <a href="#features">How it works</a>
+            <a href="#quiz">Get started</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#faq">FAQs</a>
+            <a href="#terms">Legal</a>
 
-          <!-- UPDATED: primary = quiz, ghost = pricing -->
-          <div class="row" style="flex-direction: column; gap: 10px;">
-            <a class="btn primary" href="#quiz" style="width:100%;">Quiz</a>
-            <a class="btn ghost" href="#pricing" style="width:100%;">View pricing</a>
+            <div class="row" style="flex-direction: column; gap: 10px;">
+              <a class="btn primary" href="#quiz" style="width:100%;">Quiz</a>
+              <a class="btn ghost" href="#pricing" style="width:100%;">View pricing</a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
+  </div>
 
+  <!-- MAIN CONTENT (scrolls normally) -->
   <main id="top">
     <!-- HERO -->
     <section class="section headspace">
@@ -1202,7 +921,6 @@ main{
         </div>
 
         <div class="features">
-          <!-- Card 1 -->
           <div class="feature">
             <div class="top">
               <div class="icon" aria-hidden="true">
@@ -1213,12 +931,9 @@ main{
               </div>
               <h3>Define context</h3>
             </div>
-            <p>
-              Use trend, regime, and session filters to define when trading is permitted — before thinking about entries.
-            </p>
+            <p>Use trend, regime, and session filters to define when trading is permitted — before thinking about entries.</p>
           </div>
 
-          <!-- Card 2 -->
           <div class="feature">
             <div class="top">
               <div class="icon" aria-hidden="true">
@@ -1229,12 +944,9 @@ main{
               </div>
               <h3>Validate entries</h3>
             </div>
-            <p>
-              Apply the indicator to your chart to confirm when a trade entry is valid based on predefined conditions.
-            </p>
+            <p>Apply the indicator to your chart to confirm when a trade entry is valid based on predefined conditions.</p>
           </div>
 
-          <!-- Card 3 -->
           <div class="feature">
             <div class="top">
               <div class="icon" aria-hidden="true">
@@ -1246,12 +958,9 @@ main{
               </div>
               <h3>Execute with discipline</h3>
             </div>
-            <p>
-              Follow the same decision process each time — fewer “in the moment” calls, more consistency over time.
-            </p>
+            <p>Follow the same decision process each time — fewer “in the moment” calls, more consistency over time.</p>
           </div>
 
-          <!-- Card 4 -->
           <div class="feature">
             <div class="top">
               <div class="icon" aria-hidden="true">
@@ -1265,23 +974,18 @@ main{
               </div>
               <h3>Review and improve</h3>
             </div>
-            <p>
-              Because your criteria are rules-based, review becomes objective — making it easier to refine execution.
-            </p>
+            <p>Because your criteria are rules-based, review becomes objective — making it easier to refine execution.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- UPDATED ORDER: QUIZ BEFORE PRICING -->
-    <!-- RECOMMENDATION FUNNEL (Manual vs Automated) -->
+    <!-- QUIZ -->
     <section class="section" id="quiz">
       <div class="container">
         <div class="quiz">
           <h2>Find your best starting point</h2>
-          <p>
-            Answer one quick question and we’ll recommend the right product based on how you prefer to execute.
-          </p>
+          <p>Answer one quick question and we’ll recommend the right product based on how you prefer to execute.</p>
 
           <div class="quizgrid">
             <div class="qcard" style="grid-column: 1 / -1;">
@@ -1328,14 +1032,11 @@ main{
         </div>
 
         <div class="pricing">
-          <!-- Inner Circle -->
           <div class="price" data-checkout="https://buy.stripe.com/7sYeVdawe99c9gQaU12B204">
             <div class="phead">
               <div class="chiprow"></div>
               <div class="tier">Inner Circle</div>
-              <div class="desc">
-                Private community access with guidance and accountability — for disciplined traders.
-              </div>
+              <div class="desc">Private community access with guidance and accountability — for disciplined traders.</div>
             </div>
             <div class="val">
               <div class="num">£49</div>
@@ -1347,20 +1048,15 @@ main{
               <li>Ongoing accountability to stay consistent</li>
             </ul>
             <div class="actions">
-              <button class="btn primary" type="button" data-product="Inner Circle" data-price="£49/month">
-                Subscribe
-              </button>
+              <button class="btn primary" type="button" data-product="Inner Circle" data-price="£49/month">Subscribe</button>
             </div>
           </div>
 
-          <!-- Indicator -->
           <div class="price" data-checkout="https://buy.stripe.com/aFa6oHbAi1GK50Afah2B203">
             <div class="phead">
               <div class="chiprow"></div>
               <div class="tier">Indicator</div>
-              <div class="desc">
-                Apply it to your chart to validate when a trade entry is permitted — based on rules, not discretion.
-              </div>
+              <div class="desc">Apply it to your chart to validate when a trade entry is permitted — based on rules, not discretion.</div>
             </div>
 
             <div class="val">
@@ -1375,20 +1071,15 @@ main{
             </ul>
 
             <div class="actions">
-              <button class="btn primary" type="button" data-product="PIP HERO Indicator" data-price="£99">
-                Purchase
-              </button>
+              <button class="btn primary" type="button" data-product="PIP HERO Indicator" data-price="£99">Purchase</button>
             </div>
           </div>
 
-          <!-- Automated Swing Trading Bot -->
           <div class="price" data-checkout="https://buy.stripe.com/cNi9AT0VE0CGfFed292B201">
             <div class="phead">
               <div class="chiprow"></div>
               <div class="tier">Automated Bot</div>
-              <div class="desc">
-                A hands-off trading bot for those who want rules-based execution — without watching charts.
-              </div>
+              <div class="desc">A hands-off trading bot for those who want rules-based execution — without watching charts.</div>
             </div>
             <div class="val">
               <div class="num">£499</div>
@@ -1400,9 +1091,7 @@ main{
               <li>Rules, risk limits, and sizing defined by you</li>
             </ul>
             <div class="actions">
-              <button class="btn primary" type="button" data-product="Automated Trading Bot" data-price="£499">
-                Purchase
-              </button>
+              <button class="btn primary" type="button" data-product="Automated Trading Bot" data-price="£499">Purchase</button>
             </div>
           </div>
         </div>
@@ -1514,7 +1203,6 @@ main{
         </div>
 
         <div class="features" style="margin-top:0;">
-          <!-- Terms -->
           <div class="feature" style="grid-column: span 6; min-height:auto;">
             <h3>Terms of Service</h3>
             <ul>
@@ -1526,7 +1214,6 @@ main{
             </ul>
           </div>
 
-          <!-- Risk -->
           <div class="feature" id="risk" style="grid-column: span 6; min-height:auto;">
             <h3>Risk Disclosure</h3>
             <ul>
@@ -1624,6 +1311,18 @@ main{
     (function () {
       function $(id){ return document.getElementById(id); }
 
+      function getTopbarOffset(){
+        var tb = document.querySelector('.topbar');
+        return tb ? tb.offsetHeight : 0;
+      }
+
+      function scrollToWithOffset(el){
+        if(!el) return;
+        var offset = getTopbarOffset() + 16;
+        var y = el.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+
       window.addEventListener('DOMContentLoaded', function () {
         // Mobile menu
         var hamburger = $('hamburger');
@@ -1676,11 +1375,7 @@ main{
         }
 
         function prettyName(key){
-          var names = {
-            indicator: 'Indicator',
-            bot: 'Automated Bot',
-            inner: 'Inner Circle'
-          };
+          var names = { indicator: 'Indicator', bot: 'Automated Bot', inner: 'Inner Circle' };
           return names[key] || key;
         }
 
@@ -1700,11 +1395,7 @@ main{
         function scrollToPricingAndHighlight(key){
           var card = cardFor(key);
           if(!card) return;
-
-          var yOffset = -90; // sticky header offset
-          var y = card.getBoundingClientRect().top + window.pageYOffset + yOffset;
-          window.scrollTo({ top: y, behavior: 'smooth' });
-
+          scrollToWithOffset(card);
           window.setTimeout(function(){ highlightCard(card); }, 250);
         }
 
@@ -1793,17 +1484,13 @@ main{
               resetBtn.addEventListener('click', function () {
                 resetQuiz();
                 var quizSection = $('quiz');
-                if(quizSection){
-                  quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                if(quizSection) scrollToWithOffset(quizSection);
               });
             }
           });
         }
 
-        // ==========================================================
         // Pricing checkout routing (Stripe Payment Links)
-        // ==========================================================
         var pricingSection = $('pricing');
         if(pricingSection){
           pricingSection.addEventListener('click', function(e){
